@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1st PUC Mathematics — Master Study Guide</title>
+<title>1st PUC PCME — Combined Master Study Guide</title>
 <style>
 :root{
   --bg:#f4f7fb;--surface:#fff;--surface2:#f8fafc;--text:#182235;--muted:#64748b;
@@ -37,7 +37,7 @@ button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inh
 .progress-line{display:flex;justify-content:space-between;font-size:.86rem;font-weight:800}.progress-bar{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:9px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#6d28d9,#2563eb);border-radius:999px;transition:.25s}
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:20px;box-shadow:var(--shadow);position:sticky;top:12px;z-index:30}
 .search{flex:1 1 330px;position:relative}.search input{width:100%;padding:11px 13px 11px 38px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);outline:none}.search input:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(124,58,237,.10)}.search span{position:absolute;left:13px;top:7px;color:var(--muted);font-size:1.1rem}
-.filters{display:flex;flex-wrap:wrap;gap:7px}.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.filters{display:flex;flex-wrap:wrap;gap:7px}.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}.math-subfilters{margin-top:10px;padding:10px 12px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px}.math-subfilters .filters{margin-top:7px}.subfilter-label{display:block;font-size:.72rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 .topic-list{display:grid;gap:18px}.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
 .card-header{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:19px 21px;border-bottom:1px solid var(--border)}
 .chapter{display:inline-block;background:var(--math-soft);color:var(--math);padding:5px 9px;border-radius:999px;font-size:.71rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}.card h3{margin:0;font-size:1.18rem;line-height:1.3}
@@ -154,18 +154,24 @@ footer{padding:0 22px 45px;color:var(--muted);text-align:center;font-size:.78rem
     </div>
 
     <div class="filters">
-      <button class="filter-btn active" data-filter="All">All</button>
-      <button class="filter-btn" data-filter="Physics">Physics</button>
-      <button class="filter-btn" data-filter="Chemistry">Chemistry</button>
-      <button class="filter-btn" data-filter="Mathematics">Mathematics</button>
+      <button class="filter-btn active" data-filter="All" data-level="subject">All</button>
+      <button class="filter-btn" data-filter="Physics" data-level="subject">Physics</button>
+      <button class="filter-btn" data-filter="Chemistry" data-level="subject">Chemistry</button>
+      <button class="filter-btn" data-filter="Mathematics" data-level="subject">Mathematics</button>
+    </div>
 
-      <button class="filter-btn" data-filter="Sets">Sets</button>
-      <button class="filter-btn" data-filter="Linear Inequalities">Inequalities</button>
-      <button class="filter-btn" data-filter="Permutations & Combinations">P&C</button>
-      <button class="filter-btn" data-filter="Binomial Theorem">Binomial</button>
-      <button class="filter-btn" data-filter="Straight Lines">Straight Lines</button>
-      <button class="filter-btn" data-filter="Trigonometric Functions">Trigonometry</button>
-      <button class="filter-btn" data-filter="Complex Numbers & Quadratic Equations">Complex</button>
+    <div class="math-subfilters" id="mathSubfilters" hidden>
+      <span class="subfilter-label">Mathematics chapters:</span>
+      <div class="filters">
+        <button class="filter-btn chapter-btn active" data-filter="Math-All" data-level="chapter">All Mathematics</button>
+        <button class="filter-btn chapter-btn" data-filter="Sets" data-level="chapter">Sets</button>
+        <button class="filter-btn chapter-btn" data-filter="Linear Inequalities" data-level="chapter">Inequalities</button>
+        <button class="filter-btn chapter-btn" data-filter="Permutations & Combinations" data-level="chapter">P&amp;C</button>
+        <button class="filter-btn chapter-btn" data-filter="Binomial Theorem" data-level="chapter">Binomial</button>
+        <button class="filter-btn chapter-btn" data-filter="Straight Lines" data-level="chapter">Straight Lines</button>
+        <button class="filter-btn chapter-btn" data-filter="Trigonometric Functions" data-level="chapter">Trigonometry</button>
+        <button class="filter-btn chapter-btn" data-filter="Complex Numbers & Quadratic Equations" data-level="chapter">Complex</button>
+      </div>
     </div>
   </div>
 
@@ -864,7 +870,7 @@ steps:[
 trap:"Mixing up l and ml.",
 hack:"n = Name shell; l = Look/shape; ml = Map direction; ms = Spin.",
 formula:"Quantum numbers = n, l, ml, ms"
-}
+},
 
 
 /* ================= SETS ================= */
@@ -1693,7 +1699,7 @@ document.getElementById("physicsCount").textContent = physicsCount;
 document.getElementById("chemistryCount").textContent = chemistryCount;
 document.getElementById("mathCount").textContent = mathCount;
 
-const STORAGE_KEY = "puc_math_mastered_v2";
+const STORAGE_KEY = "puc_pcme_mastered_v3";
 
 function getMastered(){
   try{
@@ -1734,7 +1740,26 @@ function toggleMastered(id){
 const searchInput = document.getElementById("searchInput");
 const topicList = document.getElementById("topicList");
 const emptyState = document.getElementById("emptyState");
+const mathSubfilters = document.getElementById("mathSubfilters");
 let currentFilter = "All";
+let currentMathChapter = "Math-All";
+
+function isMathTopic(topic){
+  return !topic.chapter.startsWith("Physics") &&
+         !topic.chapter.startsWith("Chemistry");
+}
+
+function updateFilterUI(){
+  document.querySelectorAll('.filter-btn[data-level="subject"]').forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.filter === currentFilter);
+  });
+
+  mathSubfilters.hidden = currentFilter !== "Mathematics";
+
+  document.querySelectorAll('.chapter-btn').forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.filter === currentMathChapter);
+  });
+}
 
 function renderTopics(){
 
@@ -1747,8 +1772,8 @@ function renderTopics(){
       currentFilter === "All" ||
       (currentFilter === "Physics" && topic.chapter.startsWith("Physics")) ||
       (currentFilter === "Chemistry" && topic.chapter.startsWith("Chemistry")) ||
-      (currentFilter === "Mathematics" && !topic.chapter.startsWith("Physics") && !topic.chapter.startsWith("Chemistry")) ||
-      topic.chapter === currentFilter;
+      (currentFilter === "Mathematics" && isMathTopic(topic) &&
+        (currentMathChapter === "Math-All" || topic.chapter === currentMathChapter));
 
     const searchable = [
       topic.title,
@@ -1848,21 +1873,29 @@ function renderTopics(){
   });
 }
 
-document.querySelectorAll(".filter-btn").forEach(btn => {
-  btn.addEventListener("click",() => {
-
-    document.querySelectorAll(".filter-btn")
-      .forEach(b => b.classList.remove("active"));
-
-    btn.classList.add("active");
+document.querySelectorAll('.filter-btn[data-level="subject"]').forEach(btn => {
+  btn.addEventListener("click", () => {
     currentFilter = btn.dataset.filter;
-
+    if(currentFilter === "Mathematics"){
+      currentMathChapter = "Math-All";
+    }
+    updateFilterUI();
     renderTopics();
   });
 });
 
-searchInput.addEventListener("input",renderTopics);
+document.querySelectorAll('.chapter-btn').forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentFilter = "Mathematics";
+    currentMathChapter = btn.dataset.filter;
+    updateFilterUI();
+    renderTopics();
+  });
+});
 
+searchInput.addEventListener("input", renderTopics);
+
+updateFilterUI();
 renderTopics();
 updateProgress();
 
