@@ -1,5454 +1,2030 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>1st PUC PCME — Interactive Study Guide</title>
-
-  <style>
-    :root {
-      --bg: #f4f7fb;
-      --surface: #ffffff;
-      --surface-2: #f8fafc;
-      --text: #172033;
-      --muted: #64748b;
-      --border: #e2e8f0;
-
-      --physics: #2563eb;
-      --physics-soft: #eff6ff;
-
-      --chemistry: #059669;
-      --chemistry-soft: #ecfdf5;
-
-      --math: #7c3aed;
-      --math-soft: #f5f3ff;
-
-      --accent: #0f172a;
-      --accent-soft: #e2e8f0;
-
-      --warning: #d97706;
-      --warning-soft: #fffbeb;
-
-      --danger: #dc2626;
-      --danger-soft: #fef2f2;
-
-      --success: #16a34a;
-      --success-soft: #f0fdf4;
-
-      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
-      --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
-      --shadow-lg: 0 20px 55px rgba(15, 23, 42, 0.13);
-
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    /* =========================================================
-       HERO
-    ========================================================= */
-
-    .hero {
-      background:
-        radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.13), transparent 30%),
-        radial-gradient(circle at 85% 20%, rgba(124, 58, 237, 0.13), transparent 28%),
-        linear-gradient(135deg, #ffffff, #f8fafc);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero-inner {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 48px 24px 34px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #475569;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      padding: 7px 12px;
-      border-radius: 999px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .hero h1 {
-      margin: 16px 0 8px;
-      font-size: clamp(2rem, 5vw, 3.7rem);
-      line-height: 1.05;
-      letter-spacing: -0.045em;
-      max-width: 950px;
-    }
-
-    .hero p {
-      max-width: 820px;
-      color: var(--muted);
-      font-size: 1.05rem;
-      margin: 12px 0 22px;
-    }
-
-    .nav-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .nav-btn {
-      text-decoration: none;
-      color: var(--text);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 9px 14px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      transition: 0.2s ease;
-    }
-
-    .nav-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* =========================================================
-       GENERAL LAYOUT
-    ========================================================= */
-
-    .container {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 30px 24px 70px;
-    }
-
-    section {
-      scroll-margin-top: 24px;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 20px;
-      margin: 8px 0 20px;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: clamp(1.55rem, 3vw, 2.2rem);
-      letter-spacing: -0.025em;
-    }
-
-    .section-heading p {
-      margin: 5px 0 0;
-      color: var(--muted);
-    }
-
-    /* =========================================================
-       DASHBOARD STATS
-    ========================================================= */
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 30px;
-    }
-
-    .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .stat .number {
-      font-size: 2rem;
-      line-height: 1;
-      font-weight: 850;
-      letter-spacing: -0.04em;
-    }
-
-    .stat .label {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 0.87rem;
-      font-weight: 650;
-    }
-
-    .focus-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 34px;
-    }
-
-    .focus-box {
-      padding: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .focus-box h3 {
-      margin: 0 0 10px;
-      font-size: 1rem;
-    }
-
-    .focus-box ul {
-      margin: 0;
-      padding-left: 19px;
-    }
-
-    .focus-box li {
-      margin: 6px 0;
-      color: #475569;
-    }
-
-    .focus-box strong {
-      color: var(--text);
-    }
-
-    /* =========================================================
-       FILTER / SEARCH
-    ========================================================= */
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 12px;
-      margin-bottom: 22px;
-      box-shadow: var(--shadow-sm);
-      position: sticky;
-      top: 12px;
-      z-index: 20;
-    }
-
-    .search-wrap {
-      position: relative;
-      flex: 1 1 280px;
-    }
-
-    .search-wrap input {
-      width: 100%;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      border-radius: 10px;
-      padding: 11px 13px 11px 39px;
-      outline: none;
-      color: var(--text);
-    }
-
-    .search-wrap input:focus {
-      border-color: #94a3b8;
-      box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.16);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 13px;
-      top: 8px;
-      font-size: 1.05rem;
-      color: var(--muted);
-    }
-
-    .filter-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .filter-btn {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: #475569;
-      padding: 9px 12px;
-      border-radius: 9px;
-      font-weight: 750;
-      font-size: 0.82rem;
-      transition: 0.2s ease;
-    }
-
-    .filter-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .filter-btn.active {
-      background: var(--accent);
-      color: #ffffff;
-      border-color: var(--accent);
-    }
-
-    /* =========================================================
-       TOPIC CARDS
-    ========================================================= */
-
-    .topic-list {
-      display: grid;
-      gap: 18px;
-    }
-
-    .topic-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-    }
-
-    .topic-header {
-      padding: 20px 22px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 18px;
-    }
-
-    .topic-header-left {
-      min-width: 0;
-    }
-
-    .subject-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 0.73rem;
-      font-weight: 850;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
-
-    .subject-Physics {
-      background: var(--physics-soft);
-      color: var(--physics);
-    }
-
-    .subject-Chemistry {
-      background: var(--chemistry-soft);
-      color: var(--chemistry);
-    }
-
-    .subject-Mathematics {
-      background: var(--math-soft);
-      color: var(--math);
-    }
-
-    .topic-title {
-      margin: 0;
-      font-size: 1.2rem;
-      line-height: 1.3;
-      letter-spacing: -0.015em;
-    }
-
-    .priority {
-      white-space: nowrap;
-      border-radius: 999px;
-      padding: 5px 9px;
-      font-size: 0.72rem;
-      font-weight: 800;
-    }
-
-    .priority.high {
-      background: #fff7ed;
-      color: #c2410c;
-    }
-
-    .priority.medium {
-      background: #f8fafc;
-      color: #475569;
-    }
-
-    .topic-body {
-      padding: 20px 22px 23px;
-    }
-
-    .start-box {
-      background: var(--surface-2);
-      border-left: 4px solid #64748b;
-      border-radius: 10px;
-      padding: 13px 15px;
-      margin-bottom: 18px;
-    }
-
-    .label {
-      color: var(--muted);
-      font-size: 0.72rem;
-      font-weight: 850;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 5px;
-    }
-
-    .start-box p {
-      margin: 0;
-    }
-
-    .step-section h4,
-    .support-grid h4 {
-      margin: 0 0 9px;
-      font-size: 0.92rem;
-    }
-
-    .steps {
-      counter-reset: step;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: grid;
-      gap: 10px;
-    }
-
-    .steps li {
-      counter-increment: step;
-      position: relative;
-      padding: 13px 14px 13px 50px;
-      background: #fbfdff;
-      border: 1px solid #edf2f7;
-      border-radius: 11px;
-    }
-
-    .steps li::before {
-      content: counter(step);
-      position: absolute;
-      left: 13px;
-      top: 12px;
-      width: 26px;
-      height: 26px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: #e2e8f0;
-      color: #334155;
-      font-size: 0.78rem;
-      font-weight: 850;
-    }
-
-    .steps li strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .equation {
-      display: block;
-      overflow-x: auto;
-      margin: 8px 0;
-      padding: 10px 12px;
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      color: #0f172a;
-      font-family:
-        "Cambria Math",
-        Cambria,
-        Georgia,
-        "Times New Roman",
-        serif;
-      font-size: 1.05rem;
-      line-height: 1.5;
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .equation.compact {
-      display: inline-block;
-      margin: 2px 3px;
-      padding: 4px 7px;
-      font-size: 0.98rem;
-    }
-
-    .support-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 13px;
-      margin-top: 18px;
-    }
-
-    .trap-box,
-    .hack-box,
-    .final-box {
-      padding: 14px;
-      border-radius: 11px;
-    }
-
-    .trap-box {
-      background: var(--danger-soft);
-      border: 1px solid #fecaca;
-    }
-
-    .trap-box h4 {
-      color: var(--danger);
-    }
-
-    .hack-box {
-      background: var(--success-soft);
-      border: 1px solid #bbf7d0;
-    }
-
-    .hack-box h4 {
-      color: var(--success);
-    }
-
-    .final-box {
-      grid-column: 1 / -1;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-    }
-
-    .final-formula {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: #0f172a;
-      text-align: center;
-    }
-
-    .empty-state {
-      padding: 40px 20px;
-      background: var(--surface);
-      border: 1px dashed #cbd5e1;
-      border-radius: var(--radius-md);
-      text-align: center;
-      color: var(--muted);
-    }
-
-    /* =========================================================
-       FLASHCARDS
-    ========================================================= */
-
-    .flash-section {
-      margin-top: 60px;
-    }
-
-    .flash-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 310px;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .flash-card-wrap {
-      perspective: 1400px;
-      min-height: 480px;
-    }
-
-    .flash-card {
-      position: relative;
-      width: 100%;
-      min-height: 480px;
-      transform-style: preserve-3d;
-      transition: transform 0.72s cubic-bezier(0.2, 0.7, 0.2, 1);
-      cursor: pointer;
-    }
-
-    .flash-card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .flash-face {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-lg);
-      padding: 38px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .flash-front {
-      background:
-        radial-gradient(circle at 10% 15%, rgba(37, 99, 235, 0.10), transparent 28%),
-        radial-gradient(circle at 90% 85%, rgba(124, 58, 237, 0.10), transparent 28%),
-        #ffffff;
-    }
-
-    .flash-back {
-      background:
-        radial-gradient(circle at 85% 10%, rgba(5, 150, 105, 0.12), transparent 30%),
-        linear-gradient(145deg, #ffffff, #f8fafc);
-      transform: rotateY(180deg);
-    }
-
-    .flash-small {
-      color: var(--muted);
-      font-size: 0.77rem;
-      font-weight: 850;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .flash-topic {
-      font-size: clamp(1.9rem, 4vw, 3.2rem);
-      line-height: 1.07;
-      letter-spacing: -0.04em;
-      margin: auto 0;
-      max-width: 800px;
-    }
-
-    .flash-hint {
-      color: var(--muted);
-      font-size: 0.92rem;
-      margin-top: auto;
-    }
-
-    .flash-back h3 {
-      margin: 7px 0 14px;
-      font-size: 1.35rem;
-    }
-
-    .flash-back .hack-preview {
-      background: var(--success-soft);
-      border: 1px solid #bbf7d0;
-      border-radius: 13px;
-      padding: 16px;
-      margin-bottom: 13px;
-    }
-
-    .flash-back .final-preview {
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .flash-controls {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .control-btn {
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--text);
-      padding: 10px 15px;
-      border-radius: 10px;
-      font-weight: 800;
-      transition: 0.2s ease;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .control-btn:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .control-btn.primary {
-      background: var(--accent);
-      color: #ffffff;
-      border-color: var(--accent);
-    }
-
-    .control-btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    .deck-sidebar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      position: sticky;
-      top: 75px;
-    }
-
-    .deck-sidebar h3 {
-      margin: 0 0 16px;
-      font-size: 1rem;
-    }
-
-    .deck-number {
-      font-size: 1.8rem;
-      font-weight: 850;
-      letter-spacing: -0.04em;
-    }
-
-    .deck-topic {
-      color: var(--muted);
-      font-size: 0.88rem;
-      margin-top: 4px;
-    }
-
-    .progress-bar {
-      height: 8px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: #e2e8f0;
-      margin: 10px 0 16px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #2563eb, #7c3aed);
-      transition: width 0.25s ease;
-    }
-
-    .deck-list {
-      display: grid;
-      gap: 6px;
-      max-height: 320px;
-      overflow: auto;
-      padding-right: 3px;
-      margin-top: 17px;
-    }
-
-    .deck-item {
-      border: 1px solid transparent;
-      background: #f8fafc;
-      padding: 8px 10px;
-      border-radius: 8px;
-      color: #475569;
-      font-size: 0.78rem;
-      text-align: left;
-    }
-
-    .deck-item.active {
-      background: #eff6ff;
-      color: #1d4ed8;
-      border-color: #bfdbfe;
-      font-weight: 800;
-    }
-
-    /* =========================================================
-       QUICK RECALL
-    ========================================================= */
-
-    .recall-section {
-      margin-top: 60px;
-    }
-
-    .recall-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .recall-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 19px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .recall-card h3 {
-      margin: 0 0 11px;
-      font-size: 1rem;
-    }
-
-    .recall-card p {
-      margin: 8px 0;
-    }
-
-    .formula-big {
-      font-family:
-        "Cambria Math",
-        Cambria,
-        Georgia,
-        "Times New Roman",
-        serif;
-      font-size: 1.08rem;
-      font-weight: 800;
-      text-align: center;
-      padding: 10px;
-      background: #f8fafc;
-      border-radius: 9px;
-      overflow-x: auto;
-      margin: 7px 0;
-    }
-
-    /* =========================================================
-       FOOTER
-    ========================================================= */
-
-    footer {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 0 24px 45px;
-      color: var(--muted);
-      font-size: 0.8rem;
-      text-align: center;
-    }
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
-
-    @media (max-width: 950px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .flash-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .deck-sidebar {
-        position: static;
-      }
-
-      .recall-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .hero-inner,
-      .container {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-
-      .stats-grid,
-      .focus-panel,
-      .support-grid,
-      .recall-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .final-box {
-        grid-column: auto;
-      }
-
-      .topic-header {
-        flex-direction: column;
-      }
-
-      .flash-face {
-        padding: 25px;
-      }
-
-      .flash-card,
-      .flash-card-wrap {
-        min-height: 420px;
-      }
-
-      .toolbar {
-        position: static;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1st PUC Mathematics — Master Study Guide</title>
+<style>
+:root{
+  --bg:#f4f7fb;--surface:#fff;--surface2:#f8fafc;--text:#182235;--muted:#64748b;
+  --border:#e2e8f0;--math:#6d28d9;--math-soft:#f5f3ff;--accent:#0f172a;
+  --danger:#dc2626;--danger-soft:#fef2f2;--success:#16a34a;--success-soft:#f0fdf4;
+  --blue:#2563eb;--blue-soft:#eff6ff;--shadow:0 8px 24px rgba(15,23,42,.07);
+  --shadow-lg:0 18px 48px rgba(15,23,42,.12);--r:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.62}
+button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}
+.hero{
+ background:radial-gradient(circle at 13% 10%,rgba(109,40,217,.13),transparent 30%),
+ radial-gradient(circle at 87% 18%,rgba(37,99,235,.10),transparent 28%),
+ linear-gradient(135deg,#fff,#f8fafc);border-bottom:1px solid var(--border)
+}
+.hero-inner,.container,footer{max-width:1260px;margin:auto}.hero-inner{padding:48px 22px 34px}
+.eyebrow{display:inline-block;padding:7px 12px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:.74rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#475569;box-shadow:var(--shadow)}
+.hero h1{font-size:clamp(2.2rem,5vw,4rem);line-height:1.02;letter-spacing:-.045em;max-width:1000px;margin:16px 0 12px}
+.hero p{max-width:850px;color:var(--muted);font-size:1.04rem;margin:0 0 22px}
+.nav{display:flex;flex-wrap:wrap;gap:9px}.nav a,.btn,.filter-btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 13px;font-weight:800;font-size:.84rem;transition:.2s;box-shadow:0 2px 7px rgba(15,23,42,.04)}
+.nav a:hover,.btn:hover:not(:disabled),.filter-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.container{padding:30px 22px 75px}section{scroll-margin-top:24px}
+.heading{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin:8px 0 20px}.heading h2{margin:0;font-size:clamp(1.6rem,3vw,2.25rem);letter-spacing:-.025em}.heading p{margin:6px 0 0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:17px;box-shadow:var(--shadow)}.stat .num{font-size:1.9rem;line-height:1;font-weight:900;letter-spacing:-.04em}.stat .label{margin-top:7px;color:var(--muted);font-size:.82rem;font-weight:700}
+.study-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:14px;margin-bottom:27px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}.panel h3{margin:0 0 10px;font-size:1rem}.panel ul,.panel ol{margin:0;padding-left:20px}.panel li{margin:6px 0;color:#475569}
+.progress-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:24px;box-shadow:var(--shadow)}
+.progress-line{display:flex;justify-content:space-between;font-size:.86rem;font-weight:800}.progress-bar{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-top:9px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#6d28d9,#2563eb);border-radius:999px;transition:.25s}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:20px;box-shadow:var(--shadow);position:sticky;top:12px;z-index:30}
+.search{flex:1 1 330px;position:relative}.search input{width:100%;padding:11px 13px 11px 38px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);outline:none}.search input:focus{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(124,58,237,.10)}.search span{position:absolute;left:13px;top:7px;color:var(--muted);font-size:1.1rem}
+.filters{display:flex;flex-wrap:wrap;gap:7px}.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.topic-list{display:grid;gap:18px}.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.card-header{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:19px 21px;border-bottom:1px solid var(--border)}
+.chapter{display:inline-block;background:var(--math-soft);color:var(--math);padding:5px 9px;border-radius:999px;font-size:.71rem;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}.card h3{margin:0;font-size:1.18rem;line-height:1.3}
+.priority{padding:5px 9px;border-radius:999px;font-size:.7rem;font-weight:900;white-space:nowrap;background:#fff7ed;color:#c2410c}.priority.medium{background:#f8fafc;color:#475569}
+.card-body{padding:19px 21px 22px}.box{background:#fbfdff;border:1px solid #edf2f7;border-radius:12px;padding:13px 14px;margin-bottom:15px}.box.start{border-left:4px solid #8b5cf6}
+.label{font-size:.69rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.steps{counter-reset:step;list-style:none;padding:0;margin:0;display:grid;gap:9px}.steps li{counter-increment:step;position:relative;padding:12px 13px 12px 49px;background:#fff;border:1px solid #edf2f7;border-radius:11px}.steps li:before{content:counter(step);position:absolute;left:12px;top:11px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#ede9fe;color:#5b21b6;font-weight:900;font-size:.77rem}.steps strong{display:block;margin-bottom:4px}
+.eq{display:block;overflow:auto;white-space:nowrap;text-align:center;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;margin:7px 0;font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.03rem;color:#0f172a}.eq.inline{display:inline-block;padding:4px 7px;margin:2px 3px;font-size:.96rem}
+.support{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.trap,.hack,.final{padding:13px;border-radius:11px}.trap{background:var(--danger-soft);border:1px solid #fecaca}.trap h4{color:var(--danger)}.hack{background:var(--success-soft);border:1px solid #bbf7d0}.hack h4{color:var(--success)}.final{grid-column:1/-1;background:#f8fafc;border:1px solid var(--border)}.support h4{margin:0 0 6px;font-size:.9rem}.formula{text-align:center;font-family:"Cambria Math",Cambria,Georgia,serif;font-size:1.1rem;font-weight:900;overflow:auto}.master-btn{margin-top:13px}.mastered{background:var(--success-soft)!important;color:#166534!important;border-color:#bbf7d0!important}
+.empty{padding:40px 20px;background:#fff;border:1px dashed #cbd5e1;border-radius:var(--r);text-align:center;color:var(--muted)}
+.flash-section{margin-top:60px}.flash-layout{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:19px}
+.flash-wrap{perspective:1500px;min-height:480px}.flash-card{position:relative;min-height:480px;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.2,.7,.2,1);cursor:pointer}.flash-card.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-lg);padding:36px;display:flex;flex-direction:column;overflow:hidden}
+.front{background:radial-gradient(circle at 12% 14%,rgba(109,40,217,.11),transparent 30%),#fff}.back{background:radial-gradient(circle at 88% 13%,rgba(22,163,74,.11),transparent 30%),linear-gradient(145deg,#fff,#f8fafc);transform:rotateY(180deg)}
+.small{font-size:.73rem;color:var(--muted);font-weight:900;letter-spacing:.08em;text-transform:uppercase}.big-topic{font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.06;letter-spacing:-.04em;margin:auto 0}.hint{margin-top:auto;color:var(--muted);font-size:.9rem}.back h3{font-size:1.3rem;margin:6px 0 13px}.back-box{padding:15px;border-radius:12px;margin-bottom:11px}.back-hack{background:var(--success-soft);border:1px solid #bbf7d0}.back-final{background:#f1f5f9;border:1px solid var(--border)}
+.flash-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:15px}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.deck{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);position:sticky;top:75px}.deck h3{margin:0 0 14px;font-size:1rem}.deck-count{font-size:1.8rem;font-weight:900}.deck-topic{color:var(--muted);font-size:.83rem;margin:3px 0 10px}.deck-items{display:grid;gap:6px;max-height:320px;overflow:auto;margin-top:15px}.deck-item{text-align:left;border:1px solid transparent;background:#f8fafc;color:#475569;padding:8px 10px;border-radius:8px;font-size:.77rem}.deck-item.active{background:#f5f3ff;border-color:#ddd6fe;color:#5b21b6;font-weight:900}
+.quick{margin-top:60px}.recall{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.recall-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:17px;box-shadow:var(--shadow)}.recall-card h3{margin:0 0 10px;font-size:.98rem}.recall-card p{margin:8px 0;color:#475569;font-size:.88rem}.mini{background:#f8fafc;border-radius:8px;padding:8px;text-align:center;margin:6px 0;font-family:"Cambria Math",Cambria,Georgia,serif;font-weight:800;overflow:auto}
+.exam{margin-top:60px}.exam-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.exam-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}.exam-card h3{margin:0 0 10px}.exam-card ol{margin:0;padding-left:20px}.exam-card li{margin:7px 0;color:#475569}
+footer{padding:0 22px 45px;color:var(--muted);text-align:center;font-size:.78rem}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.study-grid{grid-template-columns:1fr 1fr}.flash-layout{grid-template-columns:1fr}.deck{position:static}.recall{grid-template-columns:1fr 1fr}}
+@media(max-width:720px){.hero-inner,.container,footer{padding-left:16px;padding-right:16px}.stats,.study-grid,.support,.exam-grid,.recall{grid-template-columns:1fr}.final{grid-column:auto}.card-header{flex-direction:column}.toolbar{position:static}.flash-card,.flash-wrap{min-height:420px}.face{padding:25px}}
+</style>
 </head>
 
 <body>
 
-  <!-- =========================================================
-       HERO
-  ========================================================== -->
-
-  <header class="hero">
-    <div class="hero-inner">
-
-      <div class="eyebrow">
-        1st PUC • Karnataka State Board • PCME
-      </div>
-
-      <h1>
-        Physics, Chemistry & Mathematics Study Guide
-      </h1>
-
-      <p>
-        Step-by-step derivations, mathematical proofs, common traps,
-        final formulas and memory hacks for your 1st PUC exam preparation.
-      </p>
-
-      <div class="nav-row">
-        <a class="nav-btn" href="#dashboard">📚 Dashboard</a>
-        <a class="nav-btn" href="#flashcards">🃏 Flashcards</a>
-        <a class="nav-btn" href="#recall">⚡ Quick Recall</a>
-      </div>
-
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">1st PUC • Karnataka State Board • PCME</div>
+    <h1>PCME Master Study Guide</h1>
+    <p>
+      A dedicated, beginner-friendly revision system covering the updated Mathematics
+      syllabus: Sets, Linear Inequalities, Permutations & Combinations, Binomial Theorem,
+      Straight Lines, Trigonometric Functions, and Complex Numbers & Quadratic Equations.
+    </p>
+    <div class="nav">
+      <a href="#dashboard">📚 Dashboard</a>
+      <a href="#flashcards">🃏 3D Flashcards</a>
+      <a href="#quick">⚡ Quick Recall</a>
+      <a href="#exam">🎯 Exam Booster</a>
     </div>
-  </header>
+  </div>
+</header>
+
+<main class="container">
+
+<section id="dashboard">
+  <div class="heading">
+    <div>
+      <h2>PCME Dashboard</h2>
+      <p>Study one topic at a time. Understand the starting point, follow every step, avoid the trap and memorize the hack.</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num" id="totalTopics">0</div><div class="label">All study topics</div></div>
+    <div class="stat"><div class="num" id="physicsCount">0</div><div class="label">Physics topics</div></div>
+    <div class="stat"><div class="num" id="chemistryCount">0</div><div class="label">Chemistry topics</div></div>
+    <div class="stat"><div class="num" id="mathCount">0</div><div class="label">Mathematics topics</div></div>
+    <div class="stat"><div class="num" id="masteredTopics">0</div><div class="label">Topics mastered</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-line">
+      <span>🧠 Mastery Progress</span>
+      <span id="progressLabel">0 / 0 topics</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="mainProgress"></div></div>
+  </div>
+
+  <div class="study-grid">
+
+    <div class="panel">
+      <h3>📚 Physics Focus</h3>
+      <ul>
+        <li>Projectile trajectory and projectile formulas.</li>
+        <li>Atwood machine acceleration and tension.</li>
+        <li>Work-energy theorem and mechanical energy.</li>
+        <li>Equations of motion and dimensional analysis.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>⚛️ Chemistry Focus</h3>
+      <ul>
+        <li>Formal charge and molecular orbital bond order.</li>
+        <li>Bohr radius and energy.</li>
+        <li>de Broglie wavelength and quantization.</li>
+        <li>Quantum numbers.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>🧮 Mathematics Focus</h3>
+      <ul>
+        <li>Sets and De Morgan's laws.</li>
+        <li>Linear Inequalities.</li>
+        <li>Permutations & Combinations.</li>
+        <li>Binomial Theorem.</li>
+        <li>Straight Lines.</li>
+        <li>Trigonometric Functions.</li>
+        <li>Complex Numbers & Quadratic Equations.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <span>⌕</span>
+      <input id="searchInput" type="search"
+        placeholder="Search projectile, Bohr, permutation, binomial, sin3x, complex..." autocomplete="off">
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" data-filter="All">All</button>
+      <button class="filter-btn" data-filter="Physics">Physics</button>
+      <button class="filter-btn" data-filter="Chemistry">Chemistry</button>
+      <button class="filter-btn" data-filter="Mathematics">Mathematics</button>
+
+      <button class="filter-btn" data-filter="Sets">Sets</button>
+      <button class="filter-btn" data-filter="Linear Inequalities">Inequalities</button>
+      <button class="filter-btn" data-filter="Permutations & Combinations">P&C</button>
+      <button class="filter-btn" data-filter="Binomial Theorem">Binomial</button>
+      <button class="filter-btn" data-filter="Straight Lines">Straight Lines</button>
+      <button class="filter-btn" data-filter="Trigonometric Functions">Trigonometry</button>
+      <button class="filter-btn" data-filter="Complex Numbers & Quadratic Equations">Complex</button>
+    </div>
+  </div>
+
+  <div id="topicList" class="topic-list"></div>
+
+  <div id="emptyState" class="empty" hidden>
+    <strong>No topic found.</strong><br>
+    Try another keyword or chapter filter.
+  </div>
+</section>
 
 
-  <main class="container">
+<section id="flashcards" class="flash-section">
+  <div class="heading">
+    <div>
+      <h2>3D Flip-Flashcard Deck</h2>
+      <p>Front = topic. Back = memory hack + final formula/result. Use ← → or Space on the keyboard too.</p>
+    </div>
+  </div>
 
-    <!-- =======================================================
-         DASHBOARD
-    ======================================================== -->
+  <div class="flash-layout">
+    <div>
+      <div class="flash-wrap">
+        <div class="flash-card" id="flashCard">
 
-    <section id="dashboard">
+          <div class="face front">
+            <div>
+              <div class="small" id="flashChapter">SETS</div>
+              <div class="small" id="flashCounter" style="margin-top:5px">CARD 1 OF 1</div>
+            </div>
+            <div class="big-topic" id="flashTopic">Loading...</div>
+            <div class="hint">Click the card or press Space to reveal the answer →</div>
+          </div>
 
-      <div class="section-heading">
+          <div class="face back">
+            <div class="small">MEMORY HACK + FINAL RESULT</div>
+            <h3 id="flashBackTitle">Loading...</h3>
+            <div class="back-box back-hack">
+              <div class="label">🧠 Memory Hack</div>
+              <div id="flashHack">Loading...</div>
+            </div>
+            <div class="back-box back-final">
+              <div class="label">📌 Final Formula / Result</div>
+              <div class="formula" id="flashFormula">Loading...</div>
+            </div>
+            <div class="hint">Click again to return to the topic.</div>
+          </div>
 
+        </div>
+      </div>
+
+      <div class="flash-controls">
+        <button class="btn" id="prevBtn">← Previous</button>
+        <button class="btn primary" id="flipBtn">🔄 Flip Card</button>
+        <button class="btn" id="nextBtn">Next →</button>
+      </div>
+    </div>
+
+    <aside class="deck">
+      <h3>Deck Navigation</h3>
+      <div class="deck-count"><span id="deckCurrent">1</span> / <span id="deckTotal">0</span></div>
+      <div class="deck-topic" id="deckTopic">Loading...</div>
+      <div class="progress-bar"><div class="progress-fill" id="deckProgress"></div></div>
+      <button class="btn" id="shuffleBtn" style="width:100%">🔀 Shuffle Deck</button>
+      <div class="deck-items" id="deckItems"></div>
+    </aside>
+  </div>
+</section>
+
+
+<section id="quick" class="quick">
+  <div class="heading">
+    <div>
+      <h2>Quick Recall — PCME</h2>
+      <p>Use this section for fast revision just before practice or the exam.</p>
+    </div>
+  </div>
+
+  <div class="recall">
+
+    <div class="recall-card">
+      <h3>🚀 Physics — Projectile</h3>
+      <div class="mini">tₘ=v₀sinθ/g</div>
+      <div class="mini">T=2v₀sinθ/g</div>
+      <div class="mini">H=v₀²sin²θ/(2g)</div>
+      <div class="mini">R=v₀²sin2θ/g</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>⚙️ Physics — Atwood</h3>
+      <div class="mini">a=(m₂−m₁)g/(m₁+m₂)</div>
+      <div class="mini">T=2m₁m₂g/(m₁+m₂)</div>
+      <div class="mini">aₘₐₓ=μₛg</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>⚡ Physics — Energy</h3>
+      <div class="mini">W=ΔK</div>
+      <div class="mini">F=−dV/dx</div>
+      <div class="mini">Ki+Vi=Kf+Vf</div>
+      <div class="mini">V=½kx²</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>⚛️ Chemistry — Bonding</h3>
+      <div class="mini">FC=V−N−B/2</div>
+      <div class="mini">BO=½(Nb−Na)</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>🔬 Chemistry — Bohr</h3>
+      <div class="mini">rₙ=52.9n²/Z pm</div>
+      <div class="mini">Eₙ=−2.18×10⁻¹⁸Z²/n² J</div>
+      <div class="mini">λ=h/mv</div>
+      <div class="mini">2πr=nλ</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>🧪 Chemistry — Quantum</h3>
+      <div class="mini">n = shell</div>
+      <div class="mini">l = shape</div>
+      <div class="mini">mₗ = orientation</div>
+      <div class="mini">mₛ = spin</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>🟣 Mathematics — Sets</h3>
+      <div class="mini">(A∪B)'=A'∩B'</div>
+      <div class="mini">(A∩B)'=A'∪B'</div>
+      <div class="mini">A∪A'=U</div>
+      <div class="mini">A∩A'=∅</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>⚠️ Mathematics — Inequalities</h3>
+      <div class="mini">×/÷ positive → same sign</div>
+      <div class="mini">×/÷ negative → reverse sign</div>
+      <p><strong>Number line:</strong> Open = excluded; Filled = included.</p>
+    </div>
+
+    <div class="recall-card">
+      <h3>🔢 Mathematics — P&C</h3>
+      <div class="mini">ⁿPᵣ=n!/(n−r)!</div>
+      <div class="mini">ⁿPᵣ=ⁿCᵣr!</div>
+      <div class="mini">ⁿCᵣ=n!/[r!(n−r)!]</div>
+      <div class="mini">Repeated=n!/(p₁!p₂!…)</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>🎲 Mathematics — Binomial</h3>
+      <div class="mini">(a+b)ⁿ=Σⁿᵣ₌₀ⁿCᵣaⁿ⁻ʳbʳ</div>
+      <div class="mini">Terms=n+1</div>
+      <div class="mini">ΣⁿCᵣ=2ⁿ</div>
+      <p><strong>Hack:</strong> a DOWN, b UP.</p>
+    </div>
+
+    <div class="recall-card">
+      <h3>📏 Mathematics — Straight Lines</h3>
+      <div class="mini">m=(y₂−y₁)/(x₂−x₁)</div>
+      <div class="mini">y−y₀=m(x−x₀)</div>
+      <div class="mini">y=mx+c</div>
+      <div class="mini">x/a+y/b=1</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>📐 Mathematics — Line Angles</h3>
+      <div class="mini">tanθ=|(m₂−m₁)/(1+m₁m₂)|</div>
+      <div class="mini">Parallel:m₁=m₂</div>
+      <div class="mini">Perpendicular:m₁m₂=−1</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>🟣 Trigonometry — Fundamentals</h3>
+      <div class="mini">tanx=sinx/cosx</div>
+      <div class="mini">secx=1/cosx</div>
+      <div class="mini">cotx=cosx/sinx</div>
+      <div class="mini">sin²x+cos²x=1</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>📐 Trigonometry — Compound</h3>
+      <div class="mini">cos(x+y)=cosxcosy−sinxsiny</div>
+      <div class="mini">tan(x+y)=(tanx+tany)/(1−tanxtany)</div>
+      <div class="mini">sin3x=3sinx−4sin³x</div>
+      <div class="mini">cos3x=4cos³x−3cosx</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>🔁 Trigonometry — Transformations</h3>
+      <div class="mini">cosx+cosy=2cos[(x+y)/2]cos[(x−y)/2]</div>
+      <div class="mini">cosx−cosy=−2sin[(x+y)/2]sin[(x−y)/2]</div>
+      <div class="mini">sinx+siny=2sin[(x+y)/2]cos[(x−y)/2]</div>
+      <div class="mini">sinx−siny=2cos[(x+y)/2]sin[(x−y)/2]</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>↔ Trigonometry — Product to Sum</h3>
+      <div class="mini">2cosxcosy=cos(x+y)+cos(x−y)</div>
+      <div class="mini">−2sinxsiny=cos(x+y)−cos(x−y)</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>ℂ Complex Numbers</h3>
+      <div class="mini">z=a+ib</div>
+      <div class="mini">|z|=√(a²+b²)</div>
+      <div class="mini">z̄=a−ib</div>
+      <div class="mini">i cycle: 1,i,−1,−i</div>
+    </div>
+
+    <div class="recall-card">
+      <h3>➗ Complex Inverse</h3>
+      <div class="mini">z⁻¹=z̄/|z|²</div>
+      <div class="mini">zz̄=|z|²</div>
+      <p><strong>Hack:</strong> Conjugate ÷ modulus².</p>
+    </div>
+
+    <div class="recall-card">
+      <h3>🔄 Conjugate / Modulus</h3>
+      <div class="mini">|z₁z₂|=|z₁||z₂|</div>
+      <div class="mini">|z₁/z₂|=|z₁|/|z₂|</div>
+      <div class="mini">overline(z₁±z₂)=z̄₁±z̄₂</div>
+      <div class="mini">overline(z₁z₂)=z̄₁z̄₂</div>
+    </div>
+
+  </div>
+</section>
+
+
+<section id="exam" class="exam">
+  <div class="heading">
+    <div>
+      <h2>Exam Booster</h2>
+      <p>A final revision system for accuracy, recall and confident exam writing.</p>
+    </div>
+  </div>
+
+  <div class="exam-grid">
+
+    <div class="exam-card">
+      <h3>📝 Physics — Derivation Writing</h3>
+      <ol>
+        <li>Write the starting principle clearly.</li>
+        <li>Define directions and components before substituting.</li>
+        <li>Show every important algebraic transition.</li>
+        <li>Box the final expression and state the conclusion.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>⚛️ Chemistry — Formula Accuracy</h3>
+      <ol>
+        <li>For formal charge, remember Free − Lone − Half Shared.</li>
+        <li>For bond order, subtract antibonding electrons.</li>
+        <li>For Bohr radius, remember n²/Z.</li>
+        <li>For Bohr energy, remember −Z²/n².</li>
+        <li>For complex-number relations, remember i²=−1.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>🧮 Mathematics — P&C and Binomial</h3>
+      <ol>
+        <li>Ask whether order matters before using P or C.</li>
+        <li>Repeated objects require repeated-group factorials in the denominator.</li>
+        <li>For binomial expansion, a power goes down and b power goes up.</li>
+        <li>For coefficient sum, put both variables equal to 1.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>📐 Mathematics — Trigonometry</h3>
+      <ol>
+        <li>Memorize SC+CS for sin(A+B).</li>
+        <li>Memorize CC−SS for cos(A+B).</li>
+        <li>For 3x, start with 2x+x.</li>
+        <li>For sum-to-product, remember the half-sum and half-difference.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>📏 Mathematics — Straight Lines</h3>
+      <ol>
+        <li>Slope = RISE/RUN.</li>
+        <li>Parallel lines have the same slope.</li>
+        <li>Perpendicular slopes multiply to −1.</li>
+        <li>Distance formulas need an absolute value.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>ℂ Mathematics — Complex Numbers</h3>
+      <ol>
+        <li>Remember the i cycle of 4.</li>
+        <li>Conjugate changes only the sign of the imaginary term.</li>
+        <li>For inverse, multiply by the conjugate.</li>
+        <li>Modulus is always non-negative.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>🔁 25-Minute Daily Routine</h3>
+      <ol>
+        <li>8 minutes — read two derivations/proofs.</li>
+        <li>5 minutes — reproduce formulas without looking.</li>
+        <li>7 minutes — flashcards.</li>
+        <li>5 minutes — revisit one Common Trap.</li>
+      </ol>
+    </div>
+
+    <div class="exam-card">
+      <h3>🎯 Final Revision Order</h3>
+      <ol>
+        <li>High-priority Physics derivations.</li>
+        <li>High-priority Chemistry formulas and Bohr derivations.</li>
+        <li>High-priority Mathematics proofs and formulas.</li>
+        <li>Use the mastery tracker to find anything still unchecked.</li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  1st PUC PCME Master Study Guide • Progress is saved locally in this browser.
+</footer>
+
+
+<script>
+/* ============================================================
+   MATHEMATICS MASTER CONTENT
+   Chapters:
+   1. Sets
+   2. Linear Inequalities
+   3. Permutations & Combinations
+   4. Binomial Theorem
+   5. Straight Lines
+   6. Trigonometric Functions
+   7. Complex Numbers & Quadratic Equations
+============================================================ */
+
+const topics = [
+
+
+/* ================= PHYSICS ================= */
+
+{
+id:101,chapter:"Physics — Projectile Motion",priority:"HIGH",title:"Projectile Motion — Parabolic Trajectory",
+start:"A projectile is launched with initial velocity v₀ at angle θ. Horizontal acceleration is zero and vertical acceleration is −g.",
+steps:[
+["Resolve velocity","v₀ₓ=v₀cosθ and v₀ᵧ=v₀sinθ."],
+["Find x","Since horizontal acceleration is zero, x=v₀cosθ·t. Therefore t=x/(v₀cosθ)."],
+["Find y","Use y=(v₀sinθ)t−½gt²."],
+["Substitute t","Replace t by x/(v₀cosθ)."],
+["Simplify","The first term becomes x tanθ; the second becomes gx²/(2v₀²cos²θ)."],
+["Identify the curve","y=x tanθ−gx²/(2v₀²cos²θ) is quadratic in x, so the trajectory is a parabola."]
+],
+trap:"Using +g instead of −g when upward is taken as positive.",
+hack:"X → find TIME → put TIME into Y → X² appears → PARABOLA.",
+formula:"y = x tanθ − gx²/(2v₀²cos²θ)"
+},
+
+{
+id:102,chapter:"Physics — Projectile Motion",priority:"HIGH",title:"Projectile — Time of Maximum Height",
+start:"At maximum height the vertical velocity is zero: vᵧ=0.",
+steps:[
+["Start with velocity equation","v=u+at."],
+["Use vertical values","0=v₀sinθ−gtₘ."],
+["Rearrange","gtₘ=v₀sinθ."],
+["Divide by g","tₘ=v₀sinθ/g."]
+],
+trap:"Using v₀ instead of the vertical component v₀sinθ.",
+hack:"At the TOP, vertical velocity is ZERO.",
+formula:"tₘ = v₀sinθ/g"
+},
+
+{
+id:103,chapter:"Physics — Projectile Motion",priority:"HIGH",title:"Projectile — Time of Flight",
+start:"For a projectile returning to its launch level, vertical displacement is zero.",
+steps:[
+["Use vertical displacement","0=(v₀sinθ)T−½gT²."],
+["Take T common","0=T[v₀sinθ−½gT]."],
+["Ignore launch instant","T=0 is the starting instant, so use v₀sinθ−½gT=0."],
+["Solve","v₀sinθ=½gT, so T=2v₀sinθ/g."]
+],
+trap:"Forgetting the factor 2.",
+hack:"Flight = UP + DOWN = 2 × up-time.",
+formula:"T = 2v₀sinθ/g"
+},
+
+{
+id:104,chapter:"Physics — Projectile Motion",priority:"HIGH",title:"Projectile — Maximum Height",
+start:"At maximum height vᵧ=0. Use v²=u²+2as.",
+steps:[
+["Substitute","0=(v₀sinθ)²+2(−g)H."],
+["Simplify","0=v₀²sin²θ−2gH."],
+["Rearrange","2gH=v₀²sin²θ."],
+["Divide","H=v₀²sin²θ/(2g)."]
+],
+trap:"Forgetting the square on sinθ.",
+hack:"Height uses the VERTICAL velocity SQUARED.",
+formula:"H = v₀²sin²θ/(2g)"
+},
+
+{
+id:105,chapter:"Physics — Projectile Motion",priority:"HIGH",title:"Projectile — Horizontal Range",
+start:"Range equals horizontal velocity multiplied by total time of flight.",
+steps:[
+["Use horizontal velocity","vₓ=v₀cosθ."],
+["Substitute flight time","R=(v₀cosθ)(2v₀sinθ/g)."],
+["Multiply","R=2v₀²sinθcosθ/g."],
+["Use double-angle identity","2sinθcosθ=sin2θ."],
+["Final result","R=v₀²sin2θ/g. Maximum occurs at θ=45°."]
+],
+trap:"Confusing sin2θ with sin²θ.",
+hack:"Range = Horizontal speed × Flight time.",
+formula:"R = v₀²sin2θ/g;  Rₘₐₓ = v₀²/g at 45°"
+},
+
+{
+id:106,chapter:"Physics — Circular Motion",priority:"MEDIUM",title:"Centripetal Acceleration",
+start:"Use a꜀=v²/R and v=ωR.",
+steps:[
+["Substitute v","a꜀=(ωR)²/R."],
+["Square","a꜀=ω²R²/R."],
+["Cancel R","a꜀=ω²R."],
+["Use frequency relation","Since ω=2πf, a꜀=4π²f²R."]
+],
+trap:"Writing a꜀=v/R instead of v²/R.",
+hack:"Centripetal = velocity SQUARED ÷ radius.",
+formula:"a꜀ = v²/R = ω²R = 4π²f²R"
+},
+
+{
+id:107,chapter:"Physics — Laws of Motion",priority:"HIGH",title:"Atwood Machine — Acceleration",
+start:"For m₂>m₁, m₂ moves down and m₁ moves up. Start with F=ma.",
+steps:[
+["For m₁","T−m₁g=m₁a."],
+["For m₂","m₂g−T=m₂a."],
+["Add","T cancels, giving (m₂−m₁)g=(m₁+m₂)a."],
+["Divide","a=(m₂−m₁)g/(m₁+m₂)."]
+],
+trap:"Using the wrong force direction for one of the masses.",
+hack:"Acceleration = DIFFERENCE / SUM × g.",
+formula:"a = (m₂−m₁)g/(m₁+m₂)"
+},
+
+{
+id:108,chapter:"Physics — Laws of Motion",priority:"HIGH",title:"Atwood Machine — Tension",
+start:"Use the heavier-mass equation m₂g−T=m₂a.",
+steps:[
+["Make T the subject","T=m₂g−m₂a=m₂(g−a)."],
+["Substitute a","Use a=(m₂−m₁)g/(m₁+m₂)."],
+["Take g common","T=m₂g[1−(m₂−m₁)/(m₁+m₂)]."],
+["Use common denominator","The bracket becomes [2m₁/(m₁+m₂)]."],
+["Final result","T=2m₁m₂g/(m₁+m₂)."]
+],
+trap:"Memorizing the formula without remembering the correct Newton's-law equation.",
+hack:"Tension = TWICE the PRODUCT × g ÷ SUM.",
+formula:"T = 2m₁m₂g/(m₁+m₂)"
+},
+
+{
+id:109,chapter:"Physics — Laws of Motion",priority:"MEDIUM",title:"Maximum Static Friction",
+start:"Start with limiting static friction fₛ,max=μₛN.",
+steps:[
+["Use the normal reaction","On a horizontal surface N=mg."],
+["Substitute","fₛ,max=μₛmg."]
+],
+trap:"Using an arbitrary friction value instead of maximum static friction.",
+hack:"Maximum friction = μ × Normal reaction.",
+formula:"fₛ,max = μₛN = μₛmg"
+},
+
+{
+id:110,chapter:"Physics — Laws of Motion",priority:"MEDIUM",title:"Maximum Acceleration Without Slipping",
+start:"At the limiting condition, friction supplies the maximum available force.",
+steps:[
+["Write Newton's law","maₘₐₓ=μₛmg."],
+["Cancel m","aₘₐₓ=μₛg."]
+],
+trap:"Forgetting this is the limiting condition.",
+hack:"Maximum acceleration = μg.",
+formula:"aₘₐₓ = μₛg"
+},
+
+{
+id:111,chapter:"Physics — Work, Energy & Power",priority:"HIGH",title:"Work-Energy Theorem for Variable Force",
+start:"Start with kinetic energy K=½mv² and prove W=ΔK.",
+steps:[
+["Differentiate K","dK/dt=mv(dv/dt)."],
+["Use acceleration","dK/dt=mva."],
+["Use F=ma","dK/dt=Fv."],
+["Use v=dx/dt","dK/dt=F(dx/dt), so dK=Fdx."],
+["Integrate","∫dK=∫Fdx, giving Kf−Ki=∫Fdx."],
+["Recognize work","∫Fdx is work, so W=Kf−Ki=ΔK."]
+],
+trap:"Stopping at dK=Fdx instead of integrating.",
+hack:"WORK = CHANGE IN KINETIC ENERGY.",
+formula:"W = Kf−Ki = ΔK"
+},
+
+{
+id:112,chapter:"Physics — Work, Energy & Power",priority:"MEDIUM",title:"Conservative Force and Potential Energy",
+start:"For a conservative force dV=−dW and dW=Fdx.",
+steps:[
+["Relate energy and work","dV=−dW=−Fdx."],
+["Divide by dx","dV/dx=−F."],
+["Rearrange","F=−dV/dx."]
+],
+trap:"Forgetting the negative sign.",
+hack:"Force points toward decreasing potential energy.",
+formula:"F = −dV/dx"
+},
+
+{
+id:113,chapter:"Physics — Work, Energy & Power",priority:"MEDIUM",title:"Conservation of Mechanical Energy",
+start:"Mechanical energy is E=K+V.",
+steps:[
+["Write initial energy","Ei=Ki+Vi."],
+["Write final energy","Ef=Kf+Vf."],
+["Apply conservation","For conservative forces Ei=Ef."],
+["Combine","Ki+Vi=Kf+Vf."]
+],
+trap:"Applying mechanical-energy conservation without considering non-conservative work.",
+hack:"What you lose in K, you gain in V.",
+formula:"Ki + Vi = Kf + Vf"
+},
+
+{
+id:114,chapter:"Physics — Work, Energy & Power",priority:"MEDIUM",title:"Elastic Potential Energy of a Spring",
+start:"Start with Hooke's law F=kx and use the force-extension graph.",
+steps:[
+["Understand the graph","Force rises from 0 to kx as extension goes from 0 to x."],
+["Use triangle area","Work=½×base×height."],
+["Substitute","W=½×x×kx."],
+["Final result","V=½kx²."]
+],
+trap:"Forgetting the ½.",
+hack:"Spring energy = HALF × k × extension².",
+formula:"V = ½kx²"
+},
+
+{
+id:115,chapter:"Physics — Motion in a Straight Line",priority:"HIGH",title:"Equation of Motion — v = u + at",
+start:"Start with a=(v−u)/t.",
+steps:[
+["Multiply by t","at=v−u."],
+["Add u","v=u+at."]
+],
+trap:"Confusing initial velocity u and final velocity v.",
+hack:"FINAL = INITIAL + CHANGE.",
+formula:"v = u + at"
+},
+
+{
+id:116,chapter:"Physics — Motion in a Straight Line",priority:"HIGH",title:"Equation of Motion — s = ut + ½at²",
+start:"Use average velocity vavg=(u+v)/2.",
+steps:[
+["Write displacement","s=[(u+v)/2]t."],
+["Substitute v=u+at","s=[u+(u+at)]t/2."],
+["Simplify","s=(2u+at)t/2."],
+["Final result","s=ut+½at²."]
+],
+trap:"Forgetting that the acceleration term contains t².",
+hack:"Distance = initial-speed part + acceleration part.",
+formula:"s = ut + ½at²"
+},
+
+{
+id:117,chapter:"Physics — Motion in a Straight Line",priority:"HIGH",title:"Equation of Motion — v² = u² + 2as",
+start:"Start with v=u+at and eliminate time.",
+steps:[
+["Solve for t","t=(v−u)/a."],
+["Use average velocity","s=[(u+v)/2]t."],
+["Substitute","s=[(u+v)/2][(v−u)/a]."],
+["Use difference of squares","s=(v²−u²)/(2a)."],
+["Rearrange","v²=u²+2as."]
+],
+trap:"Reversing v²−u² into u²−v².",
+hack:"NO TIME? Think v² = u² + 2as.",
+formula:"v² = u² + 2as"
+},
+
+{
+id:118,chapter:"Physics — Units & Measurement",priority:"MEDIUM",title:"Dimensional Formula of Force",
+start:"Use Newton's law F=ma.",
+steps:[
+["Mass dimension","[m]=M."],
+["Acceleration dimension","[a]=LT⁻²."],
+["Multiply","[F]=M×LT⁻²=MLT⁻²."]
+],
+trap:"Writing acceleration as LT⁻¹ instead of LT⁻².",
+hack:"Velocity has T⁻¹; acceleration adds one more T⁻¹.",
+formula:"[F] = MLT⁻²"
+},
+
+
+/* ================= CHEMISTRY ================= */
+
+{
+id:201,chapter:"Chemistry — Chemical Bonding",priority:"HIGH",title:"Formal Charge",
+start:"Compare an atom's valence electrons with the electrons assigned to it in the molecule.",
+steps:[
+["Start with valence electrons","Let V be valence electrons in the free atom."],
+["Subtract non-bonding electrons","Lone-pair electrons are assigned fully to that atom, so subtract N."],
+["Assign half of bonding electrons","Shared electrons are divided equally, so subtract B/2."],
+["Final formula","FC=V−N−B/2."]
+],
+trap:"Using number of bonds instead of number of bonding electrons for B.",
+hack:"FREE − LONE − HALF SHARED.",
+formula:"FC = V − N − B/2"
+},
+
+{
+id:202,chapter:"Chemistry — Chemical Bonding",priority:"HIGH",title:"Molecular Orbital Bond Order",
+start:"Bonding electrons strengthen a bond; antibonding electrons weaken it.",
+steps:[
+["Count bonding electrons","Let Nb be the number of bonding electrons."],
+["Count antibonding electrons","Let Na be the number of antibonding electrons."],
+["Subtract","BO=Nb/2−Na/2."],
+["Final result","BO=½(Nb−Na)."]
+],
+trap:"Adding antibonding electrons.",
+hack:"Bonding − Antibonding.",
+formula:"BO = ½(Nb − Na)"
+},
+
+{
+id:203,chapter:"Chemistry — Structure of Atom",priority:"HIGH",title:"Bohr Radius of the nth Orbit",
+start:"Use Coulomb force = centripetal force and mvr=nh/(2π).",
+steps:[
+["Equate forces","Ze²/(4πε₀r²)=mv²/r."],
+["Use Bohr condition","v=nh/(2πmr)."],
+["Substitute","Put this v into the force equation."],
+["Simplify","Rearrangement gives rₙ=n²a₀/Z."],
+["Insert a₀","Since a₀=52.9 pm, rₙ=52.9n²/Z pm."]
+],
+trap:"Putting Z² in the radius formula.",
+hack:"Radius: n² UPSTAIRS, Z DOWNSTAIRS.",
+formula:"rₙ = n²a₀/Z = 52.9n²/Z pm"
+},
+
+{
+id:204,chapter:"Chemistry — Structure of Atom",priority:"HIGH",title:"Bohr Energy of the nth Orbit",
+start:"Total energy is E=K+V.",
+steps:[
+["Write K and V","K=½mv² and V=−Ze²/(4πε₀r)."],
+["Use force relation","mv²=Ze²/(4πε₀r)."],
+["Combine","E=½[Ze²/(4πε₀r)]−Ze²/(4πε₀r)=−Ze²/(8πε₀r)."],
+["Substitute radius","Using rₙ and simplifying gives the standard energy formula."]
+],
+trap:"Dropping the negative sign.",
+hack:"Energy = NEGATIVE, Z² on TOP, n² BELOW.",
+formula:"Eₙ = −2.18×10⁻¹⁸ Z²/n² J"
+},
+
+{
+id:205,chapter:"Chemistry — Structure of Atom",priority:"HIGH",title:"de Broglie Wavelength",
+start:"Start with p=h/λ.",
+steps:[
+["Multiply by λ","pλ=h."],
+["Divide by p","λ=h/p."],
+["Use p=mv","λ=h/(mv)."]
+],
+trap:"Writing λ=mv/h.",
+hack:"de Broglie → H on TOP.",
+formula:"λ = h/p = h/(mv)"
+},
+
+{
+id:206,chapter:"Chemistry — Structure of Atom",priority:"HIGH",title:"Bohr Quantization Condition",
+start:"Start with mvr=nh/(2π).",
+steps:[
+["Replace mv by p","pr=nh/(2π)."],
+["Multiply by 2π","2πpr=nh."],
+["Use p=h/λ","2π(h/λ)r=nh."],
+["Cancel h","2πr/λ=n."],
+["Multiply by λ","2πr=nλ."]
+],
+trap:"Forgetting p=mv or the final cancellation of h.",
+hack:"Orbit circumference = WHOLE NUMBER OF WAVELENGTHS.",
+formula:"mvr = nh/(2π) ⇒ 2πr = nλ"
+},
+
+{
+id:207,chapter:"Chemistry — Structure of Atom",priority:"MEDIUM",title:"Quantum Numbers",
+start:"An electron is described using n, l, ml and ms.",
+steps:[
+["n","Principal energy shell."],
+["l","Subshell and orbital shape."],
+["ml","Spatial orientation."],
+["ms","Electron spin orientation."]
+],
+trap:"Mixing up l and ml.",
+hack:"n = Name shell; l = Look/shape; ml = Map direction; ms = Spin.",
+formula:"Quantum numbers = n, l, ml, ms"
+}
+
+
+/* ================= SETS ================= */
+
+{
+id:1,chapter:"Sets",priority:"MEDIUM",title:"Set — Definition",
+start:"A set is a well-defined collection of objects.",
+steps:[
+["Identify the collection","A set contains objects called elements."],
+["Check whether membership is clear","A collection must be well-defined, so we should be able to decide whether an object belongs to it."],
+["State the definition","Therefore a set is a well-defined collection of objects."]
+],
+trap:"Calling a vague or subjective collection a well-defined set.",
+hack:"SET = Clearly Defined Collection.",
+formula:"A set = a well-defined collection of objects"
+},
+
+{
+id:2,chapter:"Sets",priority:"MEDIUM",title:"Empty Set",
+start:"An empty set contains no elements.",
+steps:[
+["Identify the condition","There is no element belonging to the set."],
+["Represent it","Use ∅ to represent the empty set."],
+["Remember the important distinction","{0} is NOT empty; it contains the element 0."]
+],
+trap:"Thinking {0} is the same as ∅.",
+hack:"EMPTY = nothing inside.",
+formula:"Empty set = ∅"
+},
+
+{
+id:3,chapter:"Sets",priority:"MEDIUM",title:"Subset",
+start:"Y is a subset of X when every element of Y is also an element of X.",
+steps:[
+["Take an arbitrary element","Let y be any element of Y."],
+["Check membership in X","If every y from Y also belongs to X, then Y is contained in X."],
+["Write the result","Therefore Y ⊆ X."]
+],
+trap:"Checking just one element instead of every element.",
+hack:"SUBSET = EVERY element fits inside.",
+formula:"Y ⊆ X ⇔ every element of Y belongs to X"
+},
+
+{
+id:4,chapter:"Sets",priority:"MEDIUM",title:"Union of Sets",
+start:"The union contains elements that are in A or B or both.",
+steps:[
+["Interpret OR","x belongs to A ∪ B when x belongs to A, or B, or both."],
+["Write set-builder form","Use the condition x ∈ A or x ∈ B."],
+["State the meaning","The union contains everything belonging to either set."]
+],
+trap:"Using AND instead of OR.",
+hack:"UNION = OR.",
+formula:"A ∪ B = {x : x ∈ A or x ∈ B}"
+},
+
+{
+id:5,chapter:"Sets",priority:"MEDIUM",title:"Disjoint Sets",
+start:"Two sets are disjoint if they have no common elements.",
+steps:[
+["Look for overlap","Check whether A and B share any element."],
+["No common element","Then their intersection contains nothing."],
+["Write the condition","A ∩ B = ∅."]
+],
+trap:"Thinking disjoint sets must both be empty.",
+hack:"DISJOINT = NO OVERLAP.",
+formula:"A ∩ B = ∅"
+},
+
+{
+id:6,chapter:"Sets",priority:"MEDIUM",title:"Relation as a Subset of A × B",
+start:"A relation R from non-empty A to non-empty B is a subset of A × B.",
+steps:[
+["Form A × B","A × B contains every possible ordered pair (a,b)."],
+["Select ordered pairs","A relation may contain some of those ordered pairs."],
+["Write the statement","Therefore R ⊆ A × B."]
+],
+trap:"Thinking a relation must contain all pairs in A × B.",
+hack:"RELATION = selected ordered pairs from A × B.",
+formula:"R ⊆ A × B"
+},
+
+{
+id:7,chapter:"Sets",priority:"HIGH",title:"De Morgan's Law — (A ∪ B)'",
+start:"Take an arbitrary element x and compare membership on both sides.",
+steps:[
+["Start with the complement","Suppose x ∈ (A ∪ B)'. Then x is not in A ∪ B."],
+["Interpret union","Not being in A ∪ B means x is not in A AND x is not in B."],
+["Use complements","So x ∈ A' and x ∈ B'."],
+["Use intersection","Therefore x ∈ A' ∩ B'."],
+["Conclude","Hence (A ∪ B)' = A' ∩ B'."]
+],
+trap:"Forgetting that complement flips ∪ into ∩.",
+hack:"DE MORGAN = complement FLIPS ∪ ↔ ∩.",
+formula:"(A ∪ B)' = A' ∩ B'"
+},
+
+{
+id:8,chapter:"Sets",priority:"HIGH",title:"De Morgan's Law — (A ∩ B)'",
+start:"Again take an arbitrary element x and translate the set operations.",
+steps:[
+["Start with the complement","Suppose x ∈ (A ∩ B)'. So x is not in A ∩ B."],
+["Interpret intersection","x is not simultaneously in both A and B."],
+["Use complements","Therefore x is not in A OR x is not in B."],
+["Use union","So x ∈ A' ∪ B'."],
+["Conclude","Hence (A ∩ B)' = A' ∪ B'."]
+],
+trap:"Leaving ∩ unchanged after taking the complement.",
+hack:"Complement FLIPS ∩ into ∪.",
+formula:"(A ∩ B)' = A' ∪ B'"
+},
+
+{
+id:9,chapter:"Sets",priority:"HIGH",title:"Distributive Law",
+start:"Prove A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C) by element membership.",
+steps:[
+["Start with membership","Suppose x ∈ A ∩ (B ∪ C)."],
+["Interpret intersection","x ∈ A AND x ∈ B ∪ C."],
+["Interpret union","x ∈ B OR x ∈ C."],
+["Combine","So x is in A and either B or C."],
+["Split the possibilities","x ∈ A∩B OR x ∈ A∩C."],
+["Conclude","A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)."]
+],
+trap:"Distributing with the wrong set operation.",
+hack:"Intersection DISTRIBUTES over union.",
+formula:"A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)"
+},
+
+{
+id:10,chapter:"Sets",priority:"HIGH",title:"Complement Laws",
+start:"A' contains elements of U that are not in A.",
+steps:[
+["Union with complement","Every element is either in A or not in A, so A ∪ A' = U."],
+["Intersection with complement","Nothing can be both in A and not in A, so A ∩ A' = ∅."],
+["Remember both results","Union gives all; intersection gives none."]
+],
+trap:"Interchanging U and ∅.",
+hack:"UNION = ALL; INTERSECTION = NONE.",
+formula:"A ∪ A' = U;  A ∩ A' = ∅"
+},
+
+
+/* ============ LINEAR INEQUALITIES ============ */
+
+{
+id:11,chapter:"Linear Inequalities",priority:"HIGH",title:"Inequality — Definition and Classification",
+start:"An inequality relates two real numbers or algebraic expressions with <, >, ≤ or ≥.",
+steps:[
+["Identify strict inequalities","< and > are strict inequalities."],
+["Identify slack inequalities","≤ and ≥ are slack inequalities."],
+["Remember the key difference","The equality part in ≤ or ≥ means the endpoint may be included."]
+],
+trap:"Treating <, >, ≤ and ≥ as if they all behave identically.",
+hack:"< and > = strict; ≤ and ≥ = slack.",
+formula:"Strict: <, >   |   Slack: ≤, ≥"
+},
+
+{
+id:12,chapter:"Linear Inequalities",priority:"HIGH",title:"Adding or Subtracting in an Inequality",
+start:"Equal numbers may be added to or subtracted from both sides without changing the sign.",
+steps:[
+["Start with an example","x + 3 < 8."],
+["Subtract 3","Subtract 3 from both sides."],
+["Simplify","x < 5."],
+["Observe the sign","The < sign stays the same."]
+],
+trap:"Changing the sign after ordinary addition/subtraction.",
+hack:"ADD/SUBTRACT = SAME sign.",
+formula:"a < b ⇒ a+c < b+c"
+},
+
+{
+id:13,chapter:"Linear Inequalities",priority:"HIGH",title:"Multiplying or Dividing by a Positive Number",
+start:"Multiplication or division by the same positive number does not change the inequality sign.",
+steps:[
+["Start","For example x/2 < 4."],
+["Multiply by a positive number","Multiply both sides by 2."],
+["Simplify","x < 8."],
+["Observe","The sign remains unchanged."]
+],
+trap:"Reversing the sign merely because multiplication/division happened.",
+hack:"POSITIVE = sign stays.",
+formula:"×/÷ positive → SAME sign"
+},
+
+{
+id:14,chapter:"Linear Inequalities",priority:"HIGH",title:"Multiplying or Dividing by a Negative Number",
+start:"Multiplication or division by a negative number reverses the inequality sign.",
+steps:[
+["Start","−2x < 6."],
+["Divide by −2","Because −2 is negative, reverse the sign."],
+["Write the result","x > −3."],
+["Remember the reason","A negative multiplication reverses the order of numbers."]
+],
+trap:"Dividing by a negative and keeping the old sign.",
+hack:"NEGATIVE = FLIP.",
+formula:"×/÷ negative → REVERSE sign"
+},
+
+{
+id:15,chapter:"Linear Inequalities",priority:"MEDIUM",title:"Number Line — Strict Inequalities",
+start:"For x<a and x>a, the endpoint a is not included.",
+steps:[
+["Use an open circle","a is excluded, so use an open circle."],
+["Shade in the correct direction","x<a → left; x>a → right."],
+["Check the endpoint","Open means not included."]
+],
+trap:"Using a filled circle for < or >.",
+hack:"OPEN = NOT included.",
+formula:"x<a → open + left; x>a → open + right"
+},
+
+{
+id:16,chapter:"Linear Inequalities",priority:"MEDIUM",title:"Number Line — Slack Inequalities",
+start:"For x≤a and x≥a, the endpoint a is included.",
+steps:[
+["Use a filled circle","a is included because equality is allowed."],
+["Shade in the correct direction","x≤a → left; x≥a → right."],
+["Check the endpoint","Filled means included."]
+],
+trap:"Using an open circle for ≤ or ≥.",
+hack:"FILLED = included.",
+formula:"x≤a → filled + left; x≥a → filled + right"
+},
+
+
+/* ============ P&C ============ */
+
+{
+id:17,chapter:"Permutations & Combinations",priority:"MEDIUM",title:"Fundamental Principle of Counting",
+start:"If one event can occur in m ways and a following event can occur in n ways, the combined occurrences total m×n.",
+steps:[
+["Count the first event","There are m choices."],
+["Count the second event","For each first choice, there are n choices."],
+["Multiply","Total ways = m×n."]
+],
+trap:"Adding m and n for successive choices.",
+hack:"SUCCESSIVE choices → MULTIPLY.",
+formula:"Total ways = m × n"
+},
+
+{
+id:18,chapter:"Permutations & Combinations",priority:"MEDIUM",title:"Factorial Notation",
+start:"n! is the product of positive integers from 1 to n.",
+steps:[
+["Write the product","n! = 1×2×3×...×n."],
+["Remember the special case","0! = 1."],
+["Use factorials","They shorten permutation and combination products."]
+],
+trap:"Writing 0! = 0.",
+hack:"0! is defined as 1.",
+formula:"n! = 1×2×3×...×n; 0! = 1"
+},
+
+{
+id:19,chapter:"Permutations & Combinations",priority:"HIGH",title:"Derivation of ⁿPᵣ",
+start:"Arrange r distinct objects into r vacant places from n distinct objects.",
+steps:[
+["First place","n choices."],
+["Second place","One object is used, so n−1 choices."],
+["Continue","n, n−1, n−2, ..., n−r+1."],
+["Multiply","ⁿPᵣ = n(n−1)(n−2)...(n−r+1)."],
+["Complete n!","Multiply numerator and denominator by (n−r)!."],
+["Final result","Numerator becomes n!, giving ⁿPᵣ = n!/(n−r)!."]
+],
+trap:"Writing n!/(n+r)! instead of n!/(n−r)!.",
+hack:"PERMUTATION = order matters; STOP after r choices.",
+formula:"ⁿPᵣ = n!/(n−r)!   (0≤r≤n)"
+},
+
+{
+id:20,chapter:"Permutations & Combinations",priority:"HIGH",title:"Relationship Between ⁿPᵣ and ⁿCᵣ",
+start:"A combination selects r objects; a permutation arranges the selected r objects.",
+steps:[
+["Choose","There are ⁿCᵣ ways to choose r objects."],
+["Arrange","Those r objects can be arranged in r! ways."],
+["Multiply","ⁿPᵣ = ⁿCᵣ × r!."],
+["Solve for combination","ⁿCᵣ = ⁿPᵣ/r!."],
+["Substitute ⁿPᵣ","ⁿCᵣ = n!/[r!(n−r)!]."]
+],
+trap:"Forgetting the r! arrangements.",
+hack:"CHOOSE then ARRANGE: C × r! = P.",
+formula:"ⁿPᵣ = ⁿCᵣr! ⇒ ⁿCᵣ = n!/[r!(n−r)!]"
+},
+
+{
+id:21,chapter:"Permutations & Combinations",priority:"HIGH",title:"Pascal's Identity",
+start:"Use the factorial forms of two neighboring combinations.",
+steps:[
+["Write ⁿCᵣ","ⁿCᵣ = n!/[r!(n−r)!]."],
+["Write ⁿCᵣ₋₁","ⁿCᵣ₋₁ = n!/[(r−1)!(n−r+1)!]."],
+["Combine and simplify","The sum reduces to (n+1)!/[r!(n+1−r)!]."],
+["Recognize it","That is ⁿ⁺¹Cᵣ."]
+],
+trap:"Mixing up r−1 and r+1.",
+hack:"Two neighbors ADD to make the next row.",
+formula:"ⁿCᵣ + ⁿCᵣ₋₁ = ⁿ⁺¹Cᵣ"
+},
+
+{
+id:22,chapter:"Permutations & Combinations",priority:"HIGH",title:"Permutations with Repeated Objects",
+start:"When objects are repeated, exchanging identical objects does not produce a new visible arrangement.",
+steps:[
+["Pretend all are different","This gives n! arrangements."],
+["Correct first repeated group","Divide by p₁!."],
+["Correct every repeated group","Also divide by p₂!, p₃!, ..., pₖ!."],
+["Final formula","Divide n! by all repeated-group factorials."]
+],
+trap:"Forgetting one repeated-group factorial.",
+hack:"ALL! ÷ REPEATED! factors.",
+formula:"n!/(p₁!p₂!…pₖ!)"
+},
+
+
+/* ============ BINOMIAL ============ */
+
+{
+id:23,chapter:"Binomial Theorem",priority:"HIGH",title:"Binomial Theorem — Statement",
+start:"For positive integer n, expand (a+b)ⁿ using binomial coefficients.",
+steps:[
+["Start","(a+b)ⁿ."],
+["Expand","ⁿC₀aⁿ + ⁿC₁aⁿ⁻¹b + ⁿC₂aⁿ⁻²b² + ... + ⁿCₙbⁿ."],
+["Observe powers","Power of a falls by 1; power of b rises by 1."],
+["Compact form","(a+b)ⁿ = Σⁿᵣ₌₀ ⁿCᵣaⁿ⁻ʳbʳ."]
+],
+trap:"Changing a power incorrectly in the middle terms.",
+hack:"a power DOWN; b power UP.",
+formula:"(a+b)ⁿ = Σⁿᵣ₌₀ ⁿCᵣaⁿ⁻ʳbʳ"
+},
+
+{
+id:24,chapter:"Binomial Theorem",priority:"HIGH",title:"Binomial Theorem — Proof by Mathematical Induction",
+start:"Let P(n) be the binomial theorem statement and prove it by induction.",
+steps:[
+["Base case n=1","(a+b)¹ = a+b = ¹C₀a + ¹C₁b, so P(1) is true."],
+["Inductive hypothesis","Assume P(k) is true for a positive integer k."],
+["Multiply by (a+b)","Write (a+b)ᵏ⁺¹ = (a+b)[the k-expansion]."],
+["Group like terms","Matching powers produce coefficient sums such as ᵏCᵣ + ᵏCᵣ₋₁."],
+["Use Pascal's identity","Replace that sum with ᵏ⁺¹Cᵣ."],
+["Obtain P(k+1)","This gives the required expansion for k+1."],
+["Conclude","P(1) true and P(k)⇒P(k+1), so the theorem holds for all positive integers n."]
+],
+trap:"Skipping the induction step and simply saying the next case is obvious.",
+hack:"INDUCTION = Base → Assume → Multiply → Group → Pascal → Conclude.",
+formula:"P(1) true + P(k)⇒P(k+1) ⇒ theorem true for all n∈N"
+},
+
+{
+id:25,chapter:"Binomial Theorem",priority:"MEDIUM",title:"Number of Terms in (a+b)ⁿ",
+start:"The binomial index r runs from 0 to n inclusive.",
+steps:[
+["First index","r=0."],
+["Last index","r=n."],
+["Count","Integers from 0 through n total n+1 values."]
+],
+trap:"Writing n terms instead of n+1.",
+hack:"ZERO to n gives n+1 terms.",
+formula:"Number of terms = n+1"
+},
+
+{
+id:26,chapter:"Binomial Theorem",priority:"MEDIUM",title:"Expansion of (1+x)ⁿ",
+start:"Put a=1 and b=x into the binomial theorem.",
+steps:[
+["Start","(a+b)ⁿ = Σ ⁿCᵣaⁿ⁻ʳbʳ."],
+["Substitute a=1","All powers of 1 become 1."],
+["Substitute b=x","The remaining powers are xʳ."],
+["Write the expansion","1 + ⁿC₁x + ⁿC₂x² + ... + ⁿCₙxⁿ."]
+],
+trap:"Keeping unnecessary powers of 1.",
+hack:"Set a=1; only x powers remain.",
+formula:"(1+x)ⁿ = 1 + ⁿC₁x + ⁿC₂x² + ... + ⁿCₙxⁿ"
+},
+
+{
+id:27,chapter:"Binomial Theorem",priority:"HIGH",title:"Sum of Binomial Coefficients",
+start:"Use the theorem and put a=1 and b=1.",
+steps:[
+["Write theorem","(a+b)ⁿ = ⁿC₀aⁿ + ⁿC₁aⁿ⁻¹b + ... + ⁿCₙbⁿ."],
+["Substitute","(1+1)ⁿ = ⁿC₀ + ⁿC₁ + ... + ⁿCₙ."],
+["Simplify left side","(1+1)ⁿ = 2ⁿ."],
+["Conclude","The coefficient sum equals 2ⁿ."]
+],
+trap:"Setting only one of a or b equal to 1.",
+hack:"COEFFICIENT SUM → put BOTH variables = 1.",
+formula:"ⁿC₀ + ⁿC₁ + ... + ⁿCₙ = 2ⁿ"
+},
+
+
+/* ============ STRAIGHT LINES ============ */
+
+{
+id:28,chapter:"Straight Lines",priority:"HIGH",title:"Slope Through Two Points",
+start:"Let P(x₁,y₁) and Q(x₂,y₂) lie on a non-vertical line.",
+steps:[
+["Slope concept","m = tanθ."],
+["Find rise","Rise = y₂−y₁."],
+["Find run","Run = x₂−x₁."],
+["Divide","m = (y₂−y₁)/(x₂−x₁)."],
+["Combine","m = tanθ = (y₂−y₁)/(x₂−x₁)."]
+],
+trap:"Reversing rise and run.",
+hack:"SLOPE = RISE / RUN.",
+formula:"m = tanθ = (y₂−y₁)/(x₂−x₁)"
+},
+
+{
+id:29,chapter:"Straight Lines",priority:"HIGH",title:"Point-Slope Form",
+start:"A line passes through (x₀,y₀) and has slope m.",
+steps:[
+["Use slope definition","m = (y−y₀)/(x−x₀)."],
+["Multiply","m(x−x₀) = y−y₀."],
+["Rearrange","y−y₀ = m(x−x₀)."]
+],
+trap:"Changing the coordinate differences inconsistently.",
+hack:"POINT + SLOPE → y−y₀ = m(x−x₀).",
+formula:"y−y₀ = m(x−x₀)"
+},
+
+{
+id:30,chapter:"Straight Lines",priority:"HIGH",title:"Two-Point Form",
+start:"A line passes through (x₁,y₁) and (x₂,y₂).",
+steps:[
+["Find slope","m = (y₂−y₁)/(x₂−x₁)."],
+["Use point-slope form","y−y₁ = m(x−x₁)."],
+["Substitute","y−y₁ = [(y₂−y₁)/(x₂−x₁)](x−x₁)."]
+],
+trap:"Mixing x and y subscripts.",
+hack:"TWO POINTS → SLOPE → POINT-SLOPE.",
+formula:"y−y₁ = [(y₂−y₁)/(x₂−x₁)](x−x₁)"
+},
+
+{
+id:31,chapter:"Straight Lines",priority:"MEDIUM",title:"Slope-Intercept Form",
+start:"The line has slope m and y-intercept c.",
+steps:[
+["Use the intercept point","The line crosses the y-axis at (0,c)."],
+["Apply point-slope","y−c = m(x−0)."],
+["Simplify","y−c = mx."],
+["Add c","y = mx+c."]
+],
+trap:"Confusing y-intercept c with x-intercept.",
+hack:"SLOPE + INTERCEPT = y=mx+c.",
+formula:"y = mx+c"
+},
+
+{
+id:32,chapter:"Straight Lines",priority:"MEDIUM",title:"Intercept Form",
+start:"A line cuts the x-axis at a and the y-axis at b.",
+steps:[
+["Identify points","(a,0) and (0,b)."],
+["Find slope","m = (0−b)/(a−0) = −b/a."],
+["Use point-slope","y = (−b/a)(x−a)."],
+["Simplify","y = −bx/a + b."],
+["Rearrange","x/a + y/b = 1."]
+],
+trap:"Putting the wrong intercept below x or y.",
+hack:"x goes with x-intercept a; y goes with y-intercept b.",
+formula:"x/a + y/b = 1"
+},
+
+{
+id:33,chapter:"Straight Lines",priority:"HIGH",title:"Acute Angle Between Two Lines",
+start:"Use slopes m₁,m₂ and the tangent subtraction identity.",
+steps:[
+["Relate slope and inclination","m₁=tanθ₁, m₂=tanθ₂."],
+["Angle","θ=θ₂−θ₁."],
+["Use tan(A−B)","tanθ=(tanθ₂−tanθ₁)/(1+tanθ₁tanθ₂)."],
+["Replace tangents","tanθ=(m₂−m₁)/(1+m₁m₂)."],
+["Acute angle","Use absolute value."]
+],
+trap:"Forgetting absolute value when asked for the acute angle.",
+hack:"ANGLE = slope difference ÷ (1 + slope product).",
+formula:"tanθ = |(m₂−m₁)/(1+m₁m₂)|"
+},
+
+{
+id:34,chapter:"Straight Lines",priority:"HIGH",title:"Parallel and Perpendicular Conditions",
+start:"Two lines have slopes m₁ and m₂.",
+steps:[
+["Parallel","Same inclination gives m₁=m₂."],
+["Perpendicular","The angle is 90°."],
+["Use the angle denominator","For 90°, 1+m₁m₂=0."],
+["Simplify","m₁m₂=−1."]
+],
+trap:"Using +1 for the perpendicular slope product.",
+hack:"PARALLEL = SAME; PERPENDICULAR = NEGATIVE RECIPROCALS.",
+formula:"Parallel: m₁=m₂; Perpendicular: m₁m₂=−1"
+},
+
+{
+id:35,chapter:"Straight Lines",priority:"HIGH",title:"Perpendicular Distance from a Point to a Line",
+start:"Find distance from (x₁,y₁) to Ax+By+C=0.",
+steps:[
+["Substitute point","Calculate Ax₁+By₁+C."],
+["Normal length","The normal vector has magnitude √(A²+B²)."],
+["Use absolute value","Distance is non-negative."],
+["Write result","d=|Ax₁+By₁+C|/√(A²+B²)."]
+],
+trap:"Forgetting absolute value or square root.",
+hack:"POINT into LINE → absolute value → divide by √(A²+B²).",
+formula:"d = |Ax₁+By₁+C|/√(A²+B²)"
+},
+
+{
+id:36,chapter:"Straight Lines",priority:"HIGH",title:"Distance Between Parallel Lines",
+start:"Consider y=mx+c₁ and y=mx+c₂ with the same slope.",
+steps:[
+["Convert to general form","mx−y+c₁=0 and mx−y+c₂=0."],
+["Use parallel distance formula","d=|C₁−C₂|/√(A²+B²)."],
+["Substitute","A=m and B=−1."],
+["Simplify","d=|c₁−c₂|/√(1+m²)."]
+],
+trap:"Using this formula for lines that are not parallel.",
+hack:"Parallel distance = intercept difference ÷ √(1+slope²).",
+formula:"d = |c₁−c₂|/√(1+m²)"
+},
+
+
+/* ============ TRIGONOMETRIC FUNCTIONS ============ */
+
+{
+id:37,chapter:"Trigonometric Functions",priority:"HIGH",title:"Reciprocal and Quotient Relations",
+start:"Use the definitions of the six trigonometric functions.",
+steps:[
+["Reciprocal relation","secx is the reciprocal of cosx, so secx=1/cosx."],
+["Quotient relation","tanx is sinx divided by cosx, so tanx=sinx/cosx."],
+["Cotangent relation","cotx is cosx divided by sinx, so cotx=cosx/sinx."],
+["Remember restrictions","Denominators cannot be zero."]
+],
+trap:"Forgetting the restrictions where the denominator becomes zero.",
+hack:"SEC = 1/COS; TAN = SIN/COS; COT = COS/SIN.",
+formula:"secx=1/cosx; tanx=sinx/cosx; cotx=cosx/sinx"
+},
+
+{
+id:38,chapter:"Trigonometric Functions",priority:"HIGH",title:"Pythagorean Trigonometric Identities",
+start:"Start from the basic identity sin²x+cos²x=1.",
+steps:[
+["Base identity","sin²x+cos²x=1."],
+["Divide by cos²x","This is done to create tan²x and sec²x."],
+["Simplify","tan²x+1=sec²x."],
+["Alternative","Dividing the base identity by sin²x gives cot²x+1=csc²x."]
+],
+trap:"Dividing by sin²x or cos²x and simplifying one term incorrectly.",
+hack:"Base 1 → divide by COS² for TAN/SEC; divide by SIN² for COT/CSC.",
+formula:"sin²x+cos²x=1; 1+tan²x=sec²x; 1+cot²x=csc²x"
+},
+
+{
+id:39,chapter:"Trigonometric Functions",priority:"MEDIUM",title:"Negative Angle Rules",
+start:"Use the symmetry of trigonometric functions under x→−x.",
+steps:[
+["Sine","sin(−x)=−sinx."],
+["Cosine","cos(−x)=cosx."],
+["Tangent","tan(−x)=−tanx."],
+["Remember the pattern","Sine and tangent change sign; cosine does not."]
+],
+trap:"Giving cosine a negative sign.",
+hack:"ODD functions flip; EVEN cosine stays.",
+formula:"sin(−x)=−sinx; cos(−x)=cosx; tan(−x)=−tanx"
+},
+
+{
+id:40,chapter:"Trigonometric Functions",priority:"HIGH",title:"Proof of cos(x+y)",
+start:"Use the unit-circle construction with P₀(1,0), P₁(cosx,sinx), P₂(cos(x+y),sin(x+y)), P₃(cos(−y),sin(−y)).",
+steps:[
+["Set up the points","All four points lie on a unit circle."],
+["Use equal distances","Congruent triangles imply P₁P₃²=P₀P₂²."],
+["Compute P₁P₃²","Using the distance formula and sin(−y)=−siny, the result is 2−2(cosxcosy−sinxsiny)."],
+["Compute P₀P₂²","The distance formula gives 2−2cos(x+y)."],
+["Equate","2−2cos(x+y)=2−2(cosxcosy−sinxsiny)."],
+["Cancel 2 and divide by −2","cos(x+y)=cosxcosy−sinxsiny."]
+],
+trap:"Forgetting sin(−y)=−siny while expanding the distance expression.",
+hack:"COS addition = CC − SS.",
+formula:"cos(x+y)=cosxcosy−sinxsiny"
+},
+
+{
+id:41,chapter:"Trigonometric Functions",priority:"HIGH",title:"Proof of tan(x+y)",
+start:"Start with tan(x+y)=sin(x+y)/cos(x+y).",
+steps:[
+["Use compound sine","sin(x+y)=sinxcosy+cosxsiny."],
+["Use compound cosine","cos(x+y)=cosxcosy−sinxsiny."],
+["Substitute","tan(x+y)=[sinxcosy+cosxsiny]/[cosxcosy−sinxsiny]."],
+["Divide numerator and denominator by cosxcosy","This is done so sinx/cosx and siny/cosy appear."],
+["Simplify each fraction","sinxcosy/(cosxcosy)=tanx; cosxsiny/(cosxcosy)=tany; sinxsiny/(cosxcosy)=tanx·tany."],
+["Final result","tan(x+y)=(tanx+tany)/(1−tanx·tany)."]
+],
+trap:"Dividing only the numerator or only the denominator by cosxcosy.",
+hack:"For TAN addition: PLUS on top, MINUS below.",
+formula:"tan(x+y)=(tanx+tany)/(1−tanx·tany)"
+},
+
+{
+id:42,chapter:"Trigonometric Functions",priority:"HIGH",title:"Proof of sin 3x = 3sinx − 4sin³x",
+start:"Write 3x as 2x+x and use the sine addition formula.",
+steps:[
+["Split 3x","sin3x=sin(2x+x)."],
+["Use sine addition","sin3x=sin2x cosx + cos2x sinx."],
+["Use double-angle identities","sin2x=2sinxcosx; cos2x=1−2sin²x."],
+["Substitute","sin3x=2sinxcos²x + (1−2sin²x)sinx."],
+["Replace cos²x","Since cos²x=1−sin²x, first term becomes 2sinx(1−sin²x)."],
+["Expand and combine","2sinx−2sin³x + sinx−2sin³x = 3sinx−4sin³x."]
+],
+trap:"Using cos²x=1−sinx instead of 1−sin²x.",
+hack:"SIN 3x = 3S − 4S³.",
+formula:"sin3x=3sinx−4sin³x"
+},
+
+{
+id:43,chapter:"Trigonometric Functions",priority:"HIGH",title:"Proof of cos 3x = 4cos³x − 3cosx",
+start:"Write 3x as 2x+x and use the cosine addition formula.",
+steps:[
+["Split 3x","cos3x=cos(2x+x)."],
+["Use cosine addition","cos3x=cos2x cosx − sin2x sinx."],
+["Use double-angle identities","cos2x=2cos²x−1; sin2x=2sinxcosx."],
+["Substitute","cos3x=(2cos²x−1)cosx−(2sinxcosx)sinx."],
+["Replace sin²x","Since sin²x=1−cos²x, the second term becomes −2cosx(1−cos²x)."],
+["Expand and combine","2cos³x−cosx−2cosx+2cos³x = 4cos³x−3cosx."]
+],
+trap:"Replacing sin²x with 1−sin²x instead of 1−cos²x.",
+hack:"COS 3x = 4C³ − 3C.",
+formula:"cos3x=4cos³x−3cosx"
+},
+
+{
+id:44,chapter:"Trigonometric Functions",priority:"HIGH",title:"Sum-to-Product — cosx + cosy",
+start:"Let A=(x+y)/2 and B=(x−y)/2, so x=A+B and y=A−B.",
+steps:[
+["Rewrite","cosx+cosy=cos(A+B)+cos(A−B)."],
+["Expand both cosines","One gives cosAcosB−sinAsinB; the other gives cosAcosB+sinAsinB."],
+["Add","The sine terms cancel, leaving 2cosAcosB."],
+["Substitute A and B","Replace them by (x+y)/2 and (x−y)/2."]
+],
+trap:"Forgetting the halves.",
+hack:"COS + COS = 2 COS COS.",
+formula:"cosx+cosy=2cos[(x+y)/2]cos[(x−y)/2]"
+},
+
+{
+id:45,chapter:"Trigonometric Functions",priority:"HIGH",title:"Sum-to-Product — cosx − cosy",
+start:"Use A=(x+y)/2 and B=(x−y)/2.",
+steps:[
+["Rewrite","cosx−cosy=cos(A+B)−cos(A−B)."],
+["Expand","Subtract the two cosine expansions."],
+["Cancel","The cosine terms cancel and the sine terms combine to −2sinAsinB."],
+["Substitute","Replace A and B by the half-sum and half-difference."]
+],
+trap:"Missing the negative sign.",
+hack:"COS − COS = −2 SIN SIN.",
+formula:"cosx−cosy=−2sin[(x+y)/2]sin[(x−y)/2]"
+},
+
+{
+id:46,chapter:"Trigonometric Functions",priority:"HIGH",title:"Sum-to-Product — sinx + siny",
+start:"Use A=(x+y)/2 and B=(x−y)/2.",
+steps:[
+["Rewrite","sinx+siny=sin(A+B)+sin(A−B)."],
+["Expand","Use the sine addition and subtraction formulas."],
+["Cancel","The cosAsinB terms cancel, leaving 2sinAcosB."],
+["Substitute","Replace A and B by the half-sum and half-difference."]
+],
+trap:"Interchanging the final sine and cosine factors.",
+hack:"SIN + SIN = 2 SIN COS.",
+formula:"sinx+siny=2sin[(x+y)/2]cos[(x−y)/2]"
+},
+
+{
+id:47,chapter:"Trigonometric Functions",priority:"HIGH",title:"Sum-to-Product — sinx − siny",
+start:"Use A=(x+y)/2 and B=(x−y)/2.",
+steps:[
+["Rewrite","sinx−siny=sin(A+B)−sin(A−B)."],
+["Expand","Use the sine addition and subtraction formulas."],
+["Cancel","The sinAcosB terms cancel, leaving 2cosAsinB."],
+["Substitute","Replace A and B by the half-sum and half-difference."]
+],
+trap:"Writing 2sinAcosB instead of 2cosAsinB.",
+hack:"SIN − SIN = 2 COS SIN.",
+formula:"sinx−siny=2cos[(x+y)/2]sin[(x−y)/2]"
+},
+
+{
+id:48,chapter:"Trigonometric Functions",priority:"MEDIUM",title:"Product-to-Sum — 2cosxcosy",
+start:"Add the cosine compound-angle identities for x+y and x−y.",
+steps:[
+["Write both identities","cos(x+y)=cosxcosy−sinxsiny; cos(x−y)=cosxcosy+sinxsiny."],
+["Add them","The sine-product terms cancel."],
+["Simplify","2cosxcosy = cos(x+y)+cos(x−y)."]
+],
+trap:"Subtracting instead of adding the two equations.",
+hack:"COS·COS → ADD the two cos compound expressions.",
+formula:"2cosxcosy=cos(x+y)+cos(x−y)"
+},
+
+{
+id:49,chapter:"Trigonometric Functions",priority:"MEDIUM",title:"Product-to-Sum — −2sinxsiny",
+start:"Subtract the cosine subtraction form from the cosine addition form.",
+steps:[
+["Write both","cos(x+y)=cosxcosy−sinxsiny; cos(x−y)=cosxcosy+sinxsiny."],
+["Subtract","cos(x+y)−cos(x−y)."],
+["Cancel","The cosxcosy terms cancel."],
+["Simplify","cos(x+y)−cos(x−y)=−2sinxsiny."]
+],
+trap:"Losing the negative sign on the sine-product result.",
+hack:"SINE·SINE → cosine difference, with a MINUS.",
+formula:"−2sinxsiny=cos(x+y)−cos(x−y)"
+},
+
+
+/* ===== COMPLEX NUMBERS & QUADRATIC EQUATIONS ===== */
+
+{
+id:50,chapter:"Complex Numbers & Quadratic Equations",priority:"MEDIUM",title:"Complex Number — Definition",
+start:"A complex number has the form z=a+ib, where a,b∈R and i=√(−1).",
+steps:[
+["Identify the real part","a is Re(z)."],
+["Identify the imaginary coefficient","b is Im(z)."],
+["Remember i","i=√(−1), so i²=−1."]
+],
+trap:"Calling b itself the imaginary part instead of Im(z)=b is fine only when clearly referring to the coefficient; do not confuse ib with b.",
+hack:"COMPLEX = REAL + i×REAL.",
+formula:"z = a + ib,  a,b∈R,  i=√(−1)"
+},
+
+{
+id:51,chapter:"Complex Numbers & Quadratic Equations",priority:"MEDIUM",title:"Equality of Two Complex Numbers",
+start:"Let z₁=a+ib and z₂=c+id.",
+steps:[
+["Compare real parts","Equality requires a=c."],
+["Compare imaginary coefficients","Equality also requires b=d."],
+["Conclude","Both conditions must hold together."]
+],
+trap:"Comparing only the real parts.",
+hack:"Complex equality = REAL same AND IMAGINARY coefficient same.",
+formula:"a+ib=c+id ⇔ a=c and b=d"
+},
+
+{
+id:52,chapter:"Complex Numbers & Quadratic Equations",priority:"MEDIUM",title:"Modulus of a Complex Number",
+start:"For z=a+ib, modulus is the non-negative real number √(a²+b²).",
+steps:[
+["Use the definition","|z|=√(a²+b²)."],
+["Square if needed","|z|²=a²+b²."],
+["Remember the sign","A modulus is always non-negative."]
+],
+trap:"Writing |z|=a²+b² without the square root.",
+hack:"MODULUS = distance from origin = √(real² + imaginary²).",
+formula:"|z| = √(a²+b²)"
+},
+
+{
+id:53,chapter:"Complex Numbers & Quadratic Equations",priority:"MEDIUM",title:"Conjugate of a Complex Number",
+start:"For z=a+ib, change the sign of the imaginary term.",
+steps:[
+["Keep real part","a stays unchanged."],
+["Reverse imaginary sign","ib becomes −ib."],
+["Write conjugate","z̄=a−ib."]
+],
+trap:"Changing the sign of a too.",
+hack:"CONJUGATE = flip ONLY the i-part.",
+formula:"z̄ = a−ib"
+},
+
+{
+id:54,chapter:"Complex Numbers & Quadratic Equations",priority:"HIGH",title:"Multiplicative Inverse — Derivation",
+start:"For non-zero z=a+ib, z⁻¹=1/(a+ib).",
+steps:[
+["Start with inverse","z⁻¹=1/(a+ib)."],
+["Multiply by conjugate","Multiply numerator and denominator by a−ib."],
+["Expand denominator","(a+ib)(a−ib)=a²−(ib)²."],
+["Use i²=−1","(ib)²=i²b²=−b², so the denominator becomes a²+b²."],
+["Write the result","z⁻¹=(a−ib)/(a²+b²)."],
+["Use modulus","Since |z|²=a²+b², z⁻¹=z̄/|z|²."],
+["Related identity","Multiplying z by z̄ gives zz̄=|z|²."]
+],
+trap:"Writing (a+ib)(a−ib)=a²−b² and forgetting i²=−1.",
+hack:"INVERSE = CONJUGATE ÷ MODULUS².",
+formula:"z⁻¹ = z̄/|z|² = (a−ib)/(a²+b²)"
+},
+
+{
+id:55,chapter:"Complex Numbers & Quadratic Equations",priority:"HIGH",title:"Integral Powers of i",
+start:"The powers of i repeat in a cycle of four.",
+steps:[
+["Start the cycle","i⁰=1."],
+["Continue","i¹=i; i²=−1; i³=−i."],
+["Next power","i⁴=1, so the cycle repeats."],
+["Generalize","Use the exponent modulo 4 to identify the result."]
+],
+trap:"Treating i powers as if they keep increasing in magnitude.",
+hack:"i repeats every 4: 1, i, −1, −i.",
+formula:"i⁴ᵏ=1; i⁴ᵏ⁺¹=i; i⁴ᵏ⁺²=−1; i⁴ᵏ⁺³=−i"
+},
+
+{
+id:56,chapter:"Complex Numbers & Quadratic Equations",priority:"HIGH",title:"Modulus and Conjugate Properties",
+start:"Use z₁=a+ib and z₂=c+id together with the definitions of modulus and conjugate.",
+steps:[
+["Product modulus","The modulus of a product is the product of the moduli."],
+["Quotient modulus","For z₂≠0, the modulus of a quotient is the quotient of the moduli."],
+["Conjugate of sum/difference","Conjugation changes each imaginary sign, so it distributes over + and −."],
+["Conjugate of product","Conjugation distributes over multiplication."],
+["Conjugate of quotient","For z₂≠0, conjugation distributes over division."]
+],
+trap:"Forgetting that the quotient result requires z₂≠0.",
+hack:"MODULUS MULTIPLIES/DIVIDES; CONJUGATE DISTRIBUTES.",
+formula:"|z₁z₂|=|z₁||z₂|; |z₁/z₂|=|z₁|/|z₂|; overline(z₁±z₂)=z̄₁±z̄₂; overline(z₁z₂)=z̄₁z̄₂; overline(z₁/z₂)=z̄₁/z̄₂"
+}
+
+];
+
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+
+const allChapters = [...new Set(topics.map(t => t.chapter))];
+const physicsCount = topics.filter(t => t.chapter.startsWith("Physics")).length;
+const chemistryCount = topics.filter(t => t.chapter.startsWith("Chemistry")).length;
+const mathCount = topics.filter(t => !t.chapter.startsWith("Physics") && !t.chapter.startsWith("Chemistry")).length;
+
+document.getElementById("totalTopics").textContent = topics.length;
+document.getElementById("physicsCount").textContent = physicsCount;
+document.getElementById("chemistryCount").textContent = chemistryCount;
+document.getElementById("mathCount").textContent = mathCount;
+
+const STORAGE_KEY = "puc_math_mastered_v2";
+
+function getMastered(){
+  try{
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  }catch(e){return []}
+}
+
+function saveMastered(arr){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(arr));
+}
+
+function updateProgress(){
+  const mastered = getMastered();
+  const count = topics.filter(t => mastered.includes(t.id)).length;
+  const pct = Math.round((count/topics.length)*100);
+
+  document.getElementById("masteredTopics").textContent = count;
+  document.getElementById("progressText").textContent = pct + "%";
+  document.getElementById("progressLabel").textContent =
+    `${count} / ${topics.length} topics`;
+  document.getElementById("mainProgress").style.width = pct + "%";
+}
+
+function toggleMastered(id){
+  let mastered = getMastered();
+
+  if(mastered.includes(id)){
+    mastered = mastered.filter(x => x !== id);
+  }else{
+    mastered.push(id);
+  }
+
+  saveMastered(mastered);
+  renderTopics();
+  updateProgress();
+}
+
+const searchInput = document.getElementById("searchInput");
+const topicList = document.getElementById("topicList");
+const emptyState = document.getElementById("emptyState");
+let currentFilter = "All";
+
+function renderTopics(){
+
+  const q = searchInput.value.trim().toLowerCase();
+  const mastered = getMastered();
+
+  const filtered = topics.filter(topic => {
+
+    const chapterMatch =
+      currentFilter === "All" ||
+      (currentFilter === "Physics" && topic.chapter.startsWith("Physics")) ||
+      (currentFilter === "Chemistry" && topic.chapter.startsWith("Chemistry")) ||
+      (currentFilter === "Mathematics" && !topic.chapter.startsWith("Physics") && !topic.chapter.startsWith("Chemistry")) ||
+      topic.chapter === currentFilter;
+
+    const searchable = [
+      topic.title,
+      topic.chapter,
+      topic.start,
+      topic.trap,
+      topic.hack,
+      topic.formula,
+      ...topic.steps.flat()
+    ].join(" ").toLowerCase();
+
+    const searchMatch =
+      !q || searchable.includes(q);
+
+    return chapterMatch && searchMatch;
+  });
+
+  topicList.innerHTML = "";
+
+  filtered.forEach(topic => {
+
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const priorityClass =
+      topic.priority === "HIGH" ? "" : " medium";
+
+    const isMastered =
+      mastered.includes(topic.id);
+
+    card.innerHTML = `
+      <div class="card-header">
         <div>
-          <h2>Dashboard</h2>
-
-          <p>
-            Read the complete derivations and proofs, then use the
-            flashcards to test your memory.
-          </p>
+          <div class="chapter">${topic.chapter}</div>
+          <h3>${topic.id}. ${topic.title}</h3>
         </div>
-
-      </div>
-
-
-      <div class="stats-grid">
-
-        <div class="stat">
-          <div class="number" id="totalTopics">0</div>
-          <div class="label">Study topics</div>
-        </div>
-
-        <div class="stat">
-          <div class="number" id="physicsCount">0</div>
-          <div class="label">Physics topics</div>
-        </div>
-
-        <div class="stat">
-          <div class="number" id="chemistryCount">0</div>
-          <div class="label">Chemistry topics</div>
-        </div>
-
-        <div class="stat">
-          <div class="number" id="mathCount">0</div>
-          <div class="label">Mathematics topics</div>
-        </div>
-
-      </div>
-
-
-      <div class="focus-panel">
-
-        <div class="focus-box">
-
-          <h3>🎯 Current Mathematics Focus</h3>
-
-          <ul>
-            <li><strong>Sets, Relations & Functions</strong> — De Morgan's laws and set identities.</li>
-            <li><strong>Linear Inequalities</strong> — sign rules and number-line representation.</li>
-            <li><strong>Permutations & Combinations</strong> — nPr, nCr relationships and repeated objects.</li>
-            <li><strong>Binomial Theorem</strong> — mathematical induction proof and expansion properties.</li>
-            <li><strong>Straight Lines</strong> — slope, line equations, angle and distance formulas.</li>
-          </ul>
-
-        </div>
-
-
-        <div class="focus-box">
-
-          <h3>🧠 Best Way to Study</h3>
-
-          <ul>
-            <li>Start with the <strong>Starting Point</strong>.</li>
-            <li>Follow every algebraic transition without skipping.</li>
-            <li>Pay special attention to the red <strong>Common Trap</strong>.</li>
-            <li>Say the green <strong>Memory Hack</strong> aloud.</li>
-            <li>Then use the flashcard deck without looking at the answer.</li>
-          </ul>
-
-        </div>
-
-      </div>
-
-
-      <!-- SEARCH -->
-
-      <div class="toolbar">
-
-        <div class="search-wrap">
-          <span class="search-icon">⌕</span>
-
-          <input
-            id="searchInput"
-            type="search"
-            placeholder="Search projectile, Atwood, permutation, binomial, slope..."
-            autocomplete="off"
-          />
-        </div>
-
-
-        <div class="filter-group">
-
-          <button
-            class="filter-btn active"
-            data-filter="All">
-            All
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="Physics">
-            Physics
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="Chemistry">
-            Chemistry
-          </button>
-
-          <button
-            class="filter-btn"
-            data-filter="Mathematics">
-            Mathematics
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div id="topicList" class="topic-list"></div>
-
-
-      <div id="emptyState" class="empty-state" hidden>
-        <strong>No matching topic found.</strong>
-        <div>
-          Try another search term or choose a different subject.
+        <div class="priority${priorityClass}">
+          ${topic.priority}
         </div>
       </div>
 
-    </section>
+      <div class="card-body">
 
-
-    <!-- =======================================================
-         FLASHCARDS
-    ======================================================== -->
-
-    <section id="flashcards" class="flash-section">
-
-      <div class="section-heading">
-
-        <div>
-          <h2>3D Flip-Flashcard Deck</h2>
-
-          <p>
-            Front = topic. Back = memory hack and final formula/result.
-            Click the card to flip it.
-          </p>
+        <div class="box start">
+          <div class="label">Starting Point</div>
+          <div>${topic.start}</div>
         </div>
+
+        <div class="label">Step-by-Step Flow</div>
+
+        <ol class="steps">
+          ${topic.steps.map(step => `
+            <li>
+              <strong>${step[0]}</strong>
+              <div>${step[1]}</div>
+            </li>
+          `).join("")}
+        </ol>
+
+        <div class="support">
+
+          <div class="trap">
+            <h4>🚨 Common Trap</h4>
+            <div>${topic.trap}</div>
+          </div>
+
+          <div class="hack">
+            <h4>🧠 Memory Hack</h4>
+            <div>${topic.hack}</div>
+          </div>
+
+          <div class="final">
+            <h4>📌 Final Formula / Result</h4>
+            <div class="formula">${topic.formula}</div>
+          </div>
+
+        </div>
+
+        <button
+          class="btn master-btn ${isMastered ? "mastered" : ""}"
+          data-master="${topic.id}">
+          ${isMastered ? "✓ Mastered — Click to undo" : "○ Mark as Mastered"}
+        </button>
 
       </div>
+    `;
 
+    topicList.appendChild(card);
+  });
 
-      <div class="flash-layout">
+  emptyState.hidden = filtered.length !== 0;
 
-        <div>
+  document.querySelectorAll("[data-master]").forEach(btn => {
+    btn.addEventListener("click",() => {
+      toggleMastered(Number(btn.dataset.master));
+    });
+  });
+}
 
-          <div class="flash-card-wrap">
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click",() => {
 
-            <div id="flashCard" class="flash-card">
+    document.querySelectorAll(".filter-btn")
+      .forEach(b => b.classList.remove("active"));
 
-              <!-- FRONT -->
-
-              <div class="flash-face flash-front">
-
-                <div>
-
-                  <div
-                    id="flashCategory"
-                    class="flash-small">
-                    PHYSICS
-                  </div>
-
-                  <div
-                    id="flashCounterTop"
-                    class="flash-small"
-                    style="margin-top:6px;">
-                    CARD 1 OF 1
-                  </div>
-
-                </div>
-
-
-                <div
-                  id="flashTopic"
-                  class="flash-topic">
-                  Loading...
-                </div>
-
-
-                <div class="flash-hint">
-                  Click the card to reveal the answer →
-                </div>
-
-              </div>
-
-
-              <!-- BACK -->
-
-              <div class="flash-face flash-back">
-
-                <div class="flash-small">
-                  MEMORY HACK + FINAL FORMULA
-                </div>
-
-
-                <h3 id="flashBackTitle">
-                  Loading...
-                </h3>
-
-
-                <div class="hack-preview">
-
-                  <div class="label">
-                    🧠 Memory Hack
-                  </div>
-
-                  <div id="flashHack">
-                    Loading...
-                  </div>
-
-                </div>
-
-
-                <div class="final-preview">
-
-                  <div class="label">
-                    📌 Final Formula / Result
-                  </div>
-
-                  <div
-                    id="flashFormula"
-                    class="formula-big">
-                    Loading...
-                  </div>
-
-                </div>
-
-
-                <div class="flash-hint">
-                  Click the card again to flip back →
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="flash-controls">
-
-            <button
-              id="prevBtn"
-              class="control-btn">
-              ← Previous
-            </button>
-
-            <button
-              id="flipBtn"
-              class="control-btn primary">
-              🔄 Flip Card
-            </button>
-
-            <button
-              id="nextBtn"
-              class="control-btn">
-              Next →
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- DECK SIDEBAR -->
-
-        <aside class="deck-sidebar">
-
-          <h3>Deck Progress</h3>
-
-
-          <div class="deck-number">
-
-            <span id="deckCurrent">1</span>
-
-            <span style="color:#94a3b8;">
-              /
-            </span>
-
-            <span id="deckTotal">0</span>
-
-          </div>
-
-
-          <div
-            id="deckTopic"
-            class="deck-topic">
-            Loading...
-          </div>
-
-
-          <div class="progress-bar">
-
-            <div
-              id="progressFill"
-              class="progress-fill">
-            </div>
-
-          </div>
-
-
-          <button
-            id="shuffleBtn"
-            class="control-btn"
-            style="width:100%;">
-            🔀 Shuffle Deck
-          </button>
-
-
-          <div
-            id="deckList"
-            class="deck-list">
-          </div>
-
-        </aside>
-
-      </div>
-
-    </section>
-
-
-    <!-- =======================================================
-         QUICK RECALL
-    ======================================================== -->
-
-    <section id="recall" class="recall-section">
-
-      <div class="section-heading">
-
-        <div>
-          <h2>Quick Recall</h2>
-
-          <p>
-            Important formulas and identities for last-minute revision.
-          </p>
-        </div>
-
-      </div>
-
-
-      <div class="recall-grid">
-
-
-        <!-- PHYSICS -->
-
-        <div class="recall-card">
-
-          <h3>🚀 Projectile Motion</h3>
-
-          <div class="formula-big">
-            tₘ = v₀ sinθ / g
-          </div>
-
-          <div class="formula-big">
-            T = 2v₀ sinθ / g
-          </div>
-
-          <div class="formula-big">
-            H = v₀² sin²θ / 2g
-          </div>
-
-          <div class="formula-big">
-            R = v₀² sin2θ / g
-          </div>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>⚙️ Atwood Machine</h3>
-
-          <div class="formula-big">
-            a = (m₂ − m₁)g / (m₁ + m₂)
-          </div>
-
-          <div class="formula-big">
-            T = 2m₁m₂g / (m₁ + m₂)
-          </div>
-
-          <p>
-            <strong>Memory:</strong> Difference / Sum.
-          </p>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>⚡ Work & Energy</h3>
-
-          <div class="formula-big">
-            W = ΔK
-          </div>
-
-          <div class="formula-big">
-            F = −dV/dx
-          </div>
-
-          <div class="formula-big">
-            V = ½kx²
-          </div>
-
-        </div>
-
-
-        <!-- CHEMISTRY -->
-
-        <div class="recall-card">
-
-          <h3>⚛️ Chemical Bonding</h3>
-
-          <div class="formula-big">
-            FC = V − N − B/2
-          </div>
-
-          <div class="formula-big">
-            BO = ½(Nᵦ − Nₐ)
-          </div>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>🔬 Bohr Model</h3>
-
-          <div class="formula-big">
-            rₙ = 52.9n²/Z pm
-          </div>
-
-          <div class="formula-big">
-            Eₙ = −2.18×10⁻¹⁸ Z²/n² J
-          </div>
-
-          <div class="formula-big">
-            λ = h/mv
-          </div>
-
-        </div>
-
-
-        <!-- MATHEMATICS -->
-
-        <div class="recall-card">
-
-          <h3>🧮 Permutations</h3>
-
-          <div class="formula-big">
-            ⁿPᵣ = n!/(n−r)!
-          </div>
-
-          <div class="formula-big">
-            ⁿPᵣ = ⁿCᵣ × r!
-          </div>
-
-          <div class="formula-big">
-            ⁿCᵣ = n!/[r!(n−r)!]
-          </div>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>🧮 Binomial</h3>
-
-          <div class="formula-big">
-            (a+b)ⁿ = Σ ⁿCᵣ aⁿ⁻ʳbʳ
-          </div>
-
-          <div class="formula-big">
-            Terms = n+1
-          </div>
-
-          <div class="formula-big">
-            Σ ⁿCᵣ = 2ⁿ
-          </div>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>📏 Straight Lines</h3>
-
-          <div class="formula-big">
-            m = (y₂−y₁)/(x₂−x₁)
-          </div>
-
-          <div class="formula-big">
-            y−y₀ = m(x−x₀)
-          </div>
-
-          <div class="formula-big">
-            d = |Ax₁+By₁+C|/√(A²+B²)
-          </div>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>📐 Set Laws</h3>
-
-          <div class="formula-big">
-            (A∪B)' = A'∩B'
-          </div>
-
-          <div class="formula-big">
-            (A∩B)' = A'∪B'
-          </div>
-
-          <div class="formula-big">
-            A∩(B∪C) = (A∩B)∪(A∩C)
-          </div>
-
-        </div>
-
-
-        <div class="recall-card">
-
-          <h3>⚠️ Inequalities</h3>
-
-          <div class="formula-big">
-            × or ÷ positive → SAME sign
-          </div>
-
-          <div class="formula-big">
-            × or ÷ negative → REVERSE sign
-          </div>
-
-          <p>
-            <strong>Number line:</strong>
-            Open circle for &lt; / &gt;,
-            filled circle for ≤ / ≥.
-          </p>
-
-        </div>
-
-
-      </div>
-
-    </section>
-
-  </main>
-
-
-  <footer>
-    1st PUC PCME Interactive Study Guide • Self-contained offline HTML
-  </footer>
-
-
-  <script>
-
-    /* ============================================================
-       COMPLETE STUDY DATA
-    ============================================================ */
-
-    const topics = [
-
-      /* ==========================================================
-         PHYSICS
-      ========================================================== */
-
-      {
-        id: 1,
-        category: "Physics",
-        title: "Projectile Motion — Derivation of Parabolic Trajectory",
-        priority: "HIGH",
-
-        start: `
-          A projectile is launched with initial velocity
-          <span class="equation compact">v₀</span>
-          at an angle
-          <span class="equation compact">θ</span>.
-          Horizontal acceleration is zero and vertical acceleration is
-          <span class="equation compact">−g</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Resolve the initial velocity",
-            text: `
-              Break the initial velocity into horizontal and vertical components:
-              <span class="equation">v₀ₓ = v₀ cosθ</span>
-              <span class="equation">v₀ᵧ = v₀ sinθ</span>
-            `
-          },
-
-          {
-            title: "Find horizontal position",
-            text: `
-              There is no horizontal acceleration, so the horizontal velocity
-              remains constant.
-              <span class="equation">x = v₀ cosθ · t</span>
-              Divide by v₀cosθ:
-              <span class="equation">t = x/(v₀cosθ)</span>
-            `
-          },
-
-          {
-            title: "Find vertical position",
-            text: `
-              Use
-              <span class="equation">s = ut + ½at²</span>.
-              For vertical motion:
-              <span class="equation">u = v₀sinθ</span>
-              and
-              <span class="equation">a = −g</span>.
-              Therefore:
-              <span class="equation">y = (v₀sinθ)t − ½gt²</span>
-            `
-          },
-
-          {
-            title: "Substitute t",
-            text: `
-              Replace t by x/(v₀cosθ):
-              <span class="equation">
-                y = (v₀sinθ)[x/(v₀cosθ)]
-                − ½g[x/(v₀cosθ)]²
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              v₀ cancels in the first term:
-              <span class="equation">x(sinθ/cosθ)=x tanθ</span>
-              The second term becomes:
-              <span class="equation">
-                gx²/(2v₀²cos²θ)
-              </span>
-              Therefore:
-              <span class="equation">
-                y = x tanθ − gx²/(2v₀²cos²θ)
-              </span>
-            `
-          },
-
-          {
-            title: "Identify the path",
-            text: `
-              The equation has the form:
-              <span class="equation">y = ax − bx²</span>
-              This is quadratic in x and therefore represents a parabola.
-            `
-          }
-
-        ],
-
-        trap:
-          "Using +g instead of −g when upward is taken as the positive direction.",
-
-        hack:
-          "X → find TIME → put TIME into Y → X² appears → PARABOLA.",
-
-        formula:
-          "y = x tanθ − gx²/(2v₀²cos²θ)"
-      },
-
-
-      {
-        id: 2,
-        category: "Physics",
-        title: "Projectile Motion — Time of Maximum Height",
-        priority: "HIGH",
-
-        start: `
-          At maximum height, upward motion stops for an instant:
-          <span class="equation">vᵧ = 0</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Use velocity equation",
-            text: `
-              <span class="equation">v = u + at</span>
-            `
-          },
-
-          {
-            title: "Use vertical quantities",
-            text: `
-              <span class="equation">
-                0 = v₀sinθ − gtₘ
-              </span>
-            `
-          },
-
-          {
-            title: "Move gtₘ to the other side",
-            text: `
-              <span class="equation">
-                gtₘ = v₀sinθ
-              </span>
-            `
-          },
-
-          {
-            title: "Divide by g",
-            text: `
-              <span class="equation">
-                tₘ = v₀sinθ/g
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Using v₀ instead of its vertical component v₀sinθ.",
-
-        hack:
-          "At the TOP, vertical velocity is ZERO.",
-
-        formula:
-          "tₘ = v₀sinθ/g"
-      },
-
-
-      {
-        id: 3,
-        category: "Physics",
-        title: "Projectile Motion — Time of Flight",
-        priority: "HIGH",
-
-        start: `
-          When the projectile returns to its original level:
-          <span class="equation">y = 0</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Use vertical displacement",
-            text: `
-              <span class="equation">
-                0 = (v₀sinθ)T − ½gT²
-              </span>
-            `
-          },
-
-          {
-            title: "Take T common",
-            text: `
-              <span class="equation">
-                0 = T[v₀sinθ − ½gT]
-              </span>
-            `
-          },
-
-          {
-            title: "Ignore T = 0",
-            text: `
-              T = 0 is simply the instant of launch.
-              For the complete flight:
-              <span class="equation">
-                v₀sinθ − ½gT = 0
-              </span>
-            `
-          },
-
-          {
-            title: "Solve",
-            text: `
-              <span class="equation">v₀sinθ = ½gT</span>
-              Multiply by 2:
-              <span class="equation">2v₀sinθ = gT</span>
-              Divide by g:
-              <span class="equation">T = 2v₀sinθ/g</span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting the factor 2.",
-
-        hack:
-          "Flight = UP + DOWN = 2 × up-time.",
-
-        formula:
-          "T = 2v₀sinθ/g"
-      },
-
-
-      {
-        id: 4,
-        category: "Physics",
-        title: "Projectile Motion — Maximum Height",
-        priority: "HIGH",
-
-        start: `
-          At maximum height:
-          <span class="equation">vᵧ = 0</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Use v² = u² + 2as",
-            text: `
-              <span class="equation">
-                0 = (v₀sinθ)² + 2(−g)H
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              <span class="equation">
-                0 = v₀²sin²θ − 2gH
-              </span>
-            `
-          },
-
-          {
-            title: "Move 2gH",
-            text: `
-              <span class="equation">
-                2gH = v₀²sin²θ
-              </span>
-            `
-          },
-
-          {
-            title: "Divide",
-            text: `
-              <span class="equation">
-                H = v₀²sin²θ/(2g)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting the square on sinθ.",
-
-        hack:
-          "Height uses the VERTICAL velocity SQUARED.",
-
-        formula:
-          "H = v₀²sin²θ/(2g)"
-      },
-
-
-      {
-        id: 5,
-        category: "Physics",
-        title: "Projectile Motion — Horizontal Range",
-        priority: "HIGH",
-
-        start: `
-          Range is horizontal velocity multiplied by total time of flight:
-          <span class="equation">R = vₓT</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Use horizontal velocity",
-            text: `
-              <span class="equation">vₓ = v₀cosθ</span>
-            `
-          },
-
-          {
-            title: "Substitute T",
-            text: `
-              <span class="equation">
-                R = (v₀cosθ)(2v₀sinθ/g)
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply",
-            text: `
-              <span class="equation">
-                R = 2v₀²sinθcosθ/g
-              </span>
-            `
-          },
-
-          {
-            title: "Use double-angle identity",
-            text: `
-              Since
-              <span class="equation">2sinθcosθ = sin2θ</span>:
-              <span class="equation">
-                R = v₀²sin2θ/g
-              </span>
-            `
-          },
-
-          {
-            title: "Maximum range",
-            text: `
-              Maximum occurs when sin2θ = 1:
-              <span class="equation">2θ = 90°</span>
-              Therefore:
-              <span class="equation">θ = 45°</span>
-              and:
-              <span class="equation">Rₘₐₓ = v₀²/g</span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Confusing sin2θ with sin²θ.",
-
-        hack:
-          "Range = Horizontal speed × Flight time.",
-
-        formula:
-          "R = v₀²sin2θ/g;  Rₘₐₓ = v₀²/g at 45°"
-      },
-
-
-      {
-        id: 6,
-        category: "Physics",
-        title: "Centripetal Acceleration",
-        priority: "MEDIUM",
-
-        start: `
-          Begin with:
-          <span class="equation">a꜀ = v²/R</span>
-          and
-          <span class="equation">v = ωR</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Substitute v",
-            text: `
-              <span class="equation">
-                a꜀ = (ωR)²/R
-              </span>
-            `
-          },
-
-          {
-            title: "Square",
-            text: `
-              <span class="equation">
-                a꜀ = ω²R²/R
-              </span>
-            `
-          },
-
-          {
-            title: "Cancel R",
-            text: `
-              <span class="equation">
-                a꜀ = ω²R
-              </span>
-            `
-          },
-
-          {
-            title: "Use ω = 2πf",
-            text: `
-              <span class="equation">
-                a꜀ = (2πf)²R
-              </span>
-              Therefore:
-              <span class="equation">
-                a꜀ = 4π²f²R
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing a꜀ = v/R instead of v²/R.",
-
-        hack:
-          "Centripetal = velocity SQUARED ÷ radius.",
-
-        formula:
-          "a꜀ = v²/R = ω²R = 4π²f²R"
-      },
-
-
-      {
-        id: 7,
-        category: "Physics",
-        title: "Atwood Machine — Acceleration",
-        priority: "HIGH",
-
-        start: `
-          Assume m₂ > m₁. Therefore m₂ moves downward and m₁ moves upward.
-          Start with:
-          <span class="equation">F = ma</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Equation for m₁",
-            text: `
-              <span class="equation">
-                T − m₁g = m₁a
-              </span>
-            `
-          },
-
-          {
-            title: "Equation for m₂",
-            text: `
-              <span class="equation">
-                m₂g − T = m₂a
-              </span>
-            `
-          },
-
-          {
-            title: "Add them",
-            text: `
-              <span class="equation">
-                T − m₁g + m₂g − T = m₁a + m₂a
-              </span>
-              T cancels:
-              <span class="equation">
-                (m₂ − m₁)g = (m₁ + m₂)a
-              </span>
-            `
-          },
-
-          {
-            title: "Divide",
-            text: `
-              <span class="equation">
-                a = (m₂ − m₁)g/(m₁ + m₂)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing the force directions incorrectly for the two masses.",
-
-        hack:
-          "Acceleration = DIFFERENCE / SUM × g.",
-
-        formula:
-          "a = (m₂ − m₁)g/(m₁ + m₂)"
-      },
-
-
-      {
-        id: 8,
-        category: "Physics",
-        title: "Atwood Machine — Tension",
-        priority: "HIGH",
-
-        start: `
-          Use:
-          <span class="equation">m₂g − T = m₂a</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Make T the subject",
-            text: `
-              <span class="equation">
-                T = m₂g − m₂a
-              </span>
-              Therefore:
-              <span class="equation">
-                T = m₂(g − a)
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute acceleration",
-            text: `
-              <span class="equation">
-                T =
-                m₂[
-                  g − (m₂−m₁)g/(m₁+m₂)
-                ]
-              </span>
-            `
-          },
-
-          {
-            title: "Take g common",
-            text: `
-              <span class="equation">
-                T =
-                m₂g[
-                  1 − (m₂−m₁)/(m₁+m₂)
-                ]
-              </span>
-            `
-          },
-
-          {
-            title: "Use common denominator",
-            text: `
-              <span class="equation">
-                T =
-                m₂g[
-                  (m₁+m₂−m₂+m₁)/(m₁+m₂)
-                ]
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              <span class="equation">
-                T = 2m₁m₂g/(m₁+m₂)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Trying to remember the tension formula without remembering its Newton's-law starting equation.",
-
-        hack:
-          "Tension = TWICE the PRODUCT × g ÷ SUM.",
-
-        formula:
-          "T = 2m₁m₂g/(m₁+m₂)"
-      },
-
-
-      {
-        id: 9,
-        category: "Physics",
-        title: "Maximum Static Friction",
-        priority: "MEDIUM",
-
-        start: `
-          Start with limiting static friction:
-          <span class="equation">fₛ,max = μₛN</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Use normal reaction",
-            text: `
-              On a horizontal surface:
-              <span class="equation">N = mg</span>
-            `
-          },
-
-          {
-            title: "Substitute",
-            text: `
-              <span class="equation">
-                fₛ,max = μₛmg
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Using an arbitrary friction value instead of maximum static friction.",
-
-        hack:
-          "Maximum friction = μ × Normal reaction.",
-
-        formula:
-          "fₛ,max = μₛN = μₛmg"
-      },
-
-
-      {
-        id: 10,
-        category: "Physics",
-        title: "Maximum Acceleration Without Slipping",
-        priority: "MEDIUM",
-
-        start: `
-          At the limiting condition, friction provides the maximum available force:
-          <span class="equation">fₛ,max = μₛmg</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Apply Newton's law",
-            text: `
-              <span class="equation">
-                maₘₐₓ = μₛmg
-              </span>
-            `
-          },
-
-          {
-            title: "Cancel m",
-            text: `
-              <span class="equation">
-                aₘₐₓ = μₛg
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting that this is the maximum/limiting condition.",
-
-        hack:
-          "Maximum acceleration = μg.",
-
-        formula:
-          "aₘₐₓ = μₛg"
-      },
-
-
-      {
-        id: 11,
-        category: "Physics",
-        title: "Work-Energy Theorem for Variable Force",
-        priority: "HIGH",
-
-        start: `
-          Start with:
-          <span class="equation">K = ½mv²</span>.
-          We want to prove:
-          <span class="equation">W = ΔK</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Differentiate kinetic energy",
-            text: `
-              <span class="equation">
-                dK/dt = d(½mv²)/dt
-              </span>
-              Since m is constant:
-              <span class="equation">
-                dK/dt = mv(dv/dt)
-              </span>
-            `
-          },
-
-          {
-            title: "Use acceleration",
-            text: `
-              Since
-              <span class="equation compact">dv/dt = a</span>:
-              <span class="equation">dK/dt = mva</span>.
-              Since
-              <span class="equation compact">F = ma</span>:
-              <span class="equation">dK/dt = Fv</span>
-            `
-          },
-
-          {
-            title: "Replace v",
-            text: `
-              Since
-              <span class="equation compact">v = dx/dt</span>:
-              <span class="equation">
-                dK/dt = F(dx/dt)
-              </span>
-              Multiply by dt:
-              <span class="equation">dK = Fdx</span>
-            `
-          },
-
-          {
-            title: "Integrate",
-            text: `
-              <span class="equation">
-                ∫dK = ∫Fdx
-              </span>
-              Therefore:
-              <span class="equation">
-                Kf − Kᵢ = ∫Fdx
-              </span>
-            `
-          },
-
-          {
-            title: "Recognize work",
-            text: `
-              The integral ∫Fdx is work.
-              Therefore:
-              <span class="equation">
-                W = Kf − Kᵢ = ΔK
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Stopping at dK = Fdx instead of integrating to get the final work-energy result.",
-
-        hack:
-          "WORK = CHANGE IN KINETIC ENERGY.",
-
-        formula:
-          "W = Kf − Kᵢ = ΔK"
-      },
-
-
-      {
-        id: 12,
-        category: "Physics",
-        title: "Conservative Force and Potential Energy",
-        priority: "MEDIUM",
-
-        start: `
-          Work done by a conservative force is related to potential energy by:
-          <span class="equation">dV = −dW</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Write differential work",
-            text: `
-              <span class="equation">dW = Fdx</span>
-            `
-          },
-
-          {
-            title: "Relate V and W",
-            text: `
-              <span class="equation">
-                dV = −dW = −Fdx
-              </span>
-            `
-          },
-
-          {
-            title: "Divide by dx",
-            text: `
-              <span class="equation">
-                dV/dx = −F
-              </span>
-            `
-          },
-
-          {
-            title: "Rearrange",
-            text: `
-              <span class="equation">
-                F = −dV/dx
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting the negative sign.",
-
-        hack:
-          "Force points toward decreasing potential energy.",
-
-        formula:
-          "F = −dV/dx"
-      },
-
-
-      {
-        id: 13,
-        category: "Physics",
-        title: "Conservation of Mechanical Energy",
-        priority: "MEDIUM",
-
-        start: `
-          Mechanical energy is:
-          <span class="equation">E = K + V</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Write initial energy",
-            text: `
-              <span class="equation">
-                Eᵢ = Kᵢ + Vᵢ
-              </span>
-            `
-          },
-
-          {
-            title: "Write final energy",
-            text: `
-              <span class="equation">
-                Ef = Kf + Vf
-              </span>
-            `
-          },
-
-          {
-            title: "Apply conservation",
-            text: `
-              For conservative forces:
-              <span class="equation">Eᵢ = Ef</span>
-            `
-          },
-
-          {
-            title: "Combine",
-            text: `
-              <span class="equation">
-                Kᵢ + Vᵢ = Kf + Vf
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Applying conservation of mechanical energy without considering non-conservative work.",
-
-        hack:
-          "What you lose in K, you gain in V.",
-
-        formula:
-          "Kᵢ + Vᵢ = Kf + Vf"
-      },
-
-
-      {
-        id: 14,
-        category: "Physics",
-        title: "Elastic Potential Energy of a Spring",
-        priority: "MEDIUM",
-
-        start: `
-          Start with Hooke's law:
-          <span class="equation">F = kx</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Think about the F-x graph",
-            text: `
-              As extension changes from 0 to x, force changes from 0 to kx.
-              The work done is the area under the force-displacement graph.
-            `
-          },
-
-          {
-            title: "Use triangle area",
-            text: `
-              <span class="equation">
-                W = ½ × base × height
-              </span>
-              Here:
-              <span class="equation">
-                base = x
-              </span>
-              and:
-              <span class="equation">
-                height = kx
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply",
-            text: `
-              <span class="equation">
-                W = ½ × x × kx
-              </span>
-              Therefore:
-              <span class="equation">
-                W = ½kx²
-              </span>
-            `
-          },
-
-          {
-            title: "Identify stored energy",
-            text: `
-              <span class="equation">
-                V = ½kx²
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting the ½ factor.",
-
-        hack:
-          "Spring energy = HALF × k × extension².",
-
-        formula:
-          "V = ½kx²"
-      },
-
-
-      {
-        id: 15,
-        category: "Physics",
-        title: "Equation of Motion — v = u + at",
-        priority: "HIGH",
-
-        start: `
-          Start with:
-          <span class="equation">a = (v−u)/t</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Multiply by t",
-            text: `
-              <span class="equation">at = v − u</span>
-            `
-          },
-
-          {
-            title: "Add u",
-            text: `
-              <span class="equation">
-                v = u + at
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Confusing initial velocity u with final velocity v.",
-
-        hack:
-          "FINAL = INITIAL + CHANGE.",
-
-        formula:
-          "v = u + at"
-      },
-
-
-      {
-        id: 16,
-        category: "Physics",
-        title: "Equation of Motion — s = ut + ½at²",
-        priority: "HIGH",
-
-        start: `
-          Average velocity for constant acceleration:
-          <span class="equation">vavg = (u+v)/2</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Write displacement",
-            text: `
-              <span class="equation">
-                s = [(u+v)/2]t
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute v = u + at",
-            text: `
-              <span class="equation">
-                s = [u+(u+at)]t/2
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              <span class="equation">
-                s = (2u+at)t/2
-              </span>
-              Therefore:
-              <span class="equation">
-                s = ut + ½at²
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting that the acceleration term contains t².",
-
-        hack:
-          "Distance = initial-speed part + acceleration part.",
-
-        formula:
-          "s = ut + ½at²"
-      },
-
-
-      {
-        id: 17,
-        category: "Physics",
-        title: "Equation of Motion — v² = u² + 2as",
-        priority: "HIGH",
-
-        start: `
-          Start with:
-          <span class="equation">v = u + at</span>
-          and eliminate time.
-        `,
-
-        steps: [
-
-          {
-            title: "Solve for t",
-            text: `
-              <span class="equation">
-                t = (v−u)/a
-              </span>
-            `
-          },
-
-          {
-            title: "Use average velocity",
-            text: `
-              <span class="equation">
-                s = [(u+v)/2]t
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute t",
-            text: `
-              <span class="equation">
-                s =
-                [(u+v)/2][(v−u)/a]
-              </span>
-            `
-          },
-
-          {
-            title: "Use difference of squares",
-            text: `
-              <span class="equation">
-                s = (v²−u²)/(2a)
-              </span>
-            `
-          },
-
-          {
-            title: "Rearrange",
-            text: `
-              <span class="equation">
-                2as = v² − u²
-              </span>
-              Therefore:
-              <span class="equation">
-                v² = u² + 2as
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Reversing v² − u² into u² − v².",
-
-        hack:
-          "NO TIME? Think v² = u² + 2as.",
-
-        formula:
-          "v² = u² + 2as"
-      },
-
-
-      {
-        id: 18,
-        category: "Physics",
-        title: "Dimensional Formula of Force",
-        priority: "MEDIUM",
-
-        start: `
-          Use Newton's second law:
-          <span class="equation">F = ma</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Mass dimension",
-            text: `
-              <span class="equation">
-                [m] = M
-              </span>
-            `
-          },
-
-          {
-            title: "Acceleration dimension",
-            text: `
-              Acceleration has dimension:
-              <span class="equation">
-                [a] = LT⁻²
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply",
-            text: `
-              <span class="equation">
-                [F] = [m][a]
-              </span>
-              Therefore:
-              <span class="equation">
-                [F] = MLT⁻²
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing acceleration as LT⁻¹ instead of LT⁻².",
-
-        hack:
-          "Velocity has T⁻¹; acceleration adds one more T⁻¹.",
-
-        formula:
-          "[F] = MLT⁻²"
-      },
-
-
-      /* ==========================================================
-         CHEMISTRY
-      ========================================================== */
-
-      {
-        id: 19,
-        category: "Chemistry",
-        title: "Formal Charge",
-        priority: "HIGH",
-
-        start: `
-          Formal charge compares the valence electrons of a free atom
-          with the electrons assigned to it in the molecule.
-        `,
-
-        steps: [
-
-          {
-            title: "Start with valence electrons",
-            text: `
-              Let V be the number of valence electrons in the free atom.
-            `
-          },
-
-          {
-            title: "Subtract non-bonding electrons",
-            text: `
-              Lone-pair electrons belong completely to the atom:
-              <span class="equation">V − N</span>
-            `
-          },
-
-          {
-            title: "Assign half of bonding electrons",
-            text: `
-              Shared bonding electrons are divided equally:
-              <span class="equation">B/2</span>
-            `
-          },
-
-          {
-            title: "Final formula",
-            text: `
-              <span class="equation">
-                FC = V − N − B/2
-              </span>
-            `
-          },
-
-          {
-            title: "Example: oxygen in H₂O",
-            text: `
-              <span class="equation">
-                FC = 6 − 4 − 4/2 = 0
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Using the number of bonds instead of the number of bonding electrons for B.",
-
-        hack:
-          "FREE − LONE − HALF SHARED.",
-
-        formula:
-          "FC = V − N − B/2"
-      },
-
-
-      {
-        id: 20,
-        category: "Chemistry",
-        title: "Molecular Orbital Bond Order",
-        priority: "HIGH",
-
-        start: `
-          Bonding electrons strengthen the molecule while antibonding electrons weaken it.
-        `,
-
-        steps: [
-
-          {
-            title: "Count bonding electrons",
-            text: `
-              Let Nᵦ be the number of bonding electrons.
-            `
-          },
-
-          {
-            title: "Count antibonding electrons",
-            text: `
-              Let Nₐ be the number of antibonding electrons.
-            `
-          },
-
-          {
-            title: "Subtract the antibonding contribution",
-            text: `
-              <span class="equation">
-                BO = Nᵦ/2 − Nₐ/2
-              </span>
-            `
-          },
-
-          {
-            title: "Take ½ common",
-            text: `
-              <span class="equation">
-                BO = ½(Nᵦ − Nₐ)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Adding antibonding electrons instead of subtracting them.",
-
-        hack:
-          "Bonding − Antibonding.",
-
-        formula:
-          "BO = ½(Nᵦ − Nₐ)"
-      },
-
-
-      {
-        id: 21,
-        category: "Chemistry",
-        title: "Bohr Radius of the nth Orbit",
-        priority: "HIGH",
-
-        start: `
-          Use:
-          <span class="equation">
-            Coulomb force = centripetal force
-          </span>
-          and:
-          <span class="equation">
-            mvr = nh/(2π)
-          </span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Equate forces",
-            text: `
-              <span class="equation">
-                Ze²/(4πε₀r²) = mv²/r
-              </span>
-            `
-          },
-
-          {
-            title: "Use Bohr's condition",
-            text: `
-              <span class="equation">
-                mvr = nh/(2π)
-              </span>
-              Therefore:
-              <span class="equation">
-                v = nh/(2πmr)
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute v",
-            text: `
-              <span class="equation">
-                Ze²/(4πε₀r²)
-                =
-                (m/r)[nh/(2πmr)]²
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              <span class="equation">
-                Ze²/(4πε₀r²)
-                =
-                n²h²/(4π²mr³)
-              </span>
-            `
-          },
-
-          {
-            title: "Solve for r",
-            text: `
-              After rearranging:
-              <span class="equation">
-                rₙ = n²a₀/Z
-              </span>
-              Since a₀ = 52.9 pm:
-              <span class="equation">
-                rₙ = 52.9n²/Z pm
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Putting Z² in the radius formula. Radius varies as n²/Z.",
-
-        hack:
-          "Radius: n² UPSTAIRS, Z DOWNSTAIRS.",
-
-        formula:
-          "rₙ = n²a₀/Z = 52.9n²/Z pm"
-      },
-
-
-      {
-        id: 22,
-        category: "Chemistry",
-        title: "Bohr Energy of the nth Orbit",
-        priority: "HIGH",
-
-        start: `
-          Total energy:
-          <span class="equation">E = K + V</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Write kinetic and potential energy",
-            text: `
-              <span class="equation">
-                K = ½mv²
-              </span>
-              <span class="equation">
-                V = −Ze²/(4πε₀r)
-              </span>
-            `
-          },
-
-          {
-            title: "Use the force relation",
-            text: `
-              <span class="equation">
-                mv² = Ze²/(4πε₀r)
-              </span>
-            `
-          },
-
-          {
-            title: "Combine K and V",
-            text: `
-              <span class="equation">
-                E =
-                ½[Ze²/(4πε₀r)]
-                − Ze²/(4πε₀r)
-              </span>
-              Therefore:
-              <span class="equation">
-                E = −Ze²/(8πε₀r)
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute the Bohr radius",
-            text: `
-              Simplifying gives:
-              <span class="equation">
-                Eₙ =
-                −2.18×10⁻¹⁸ Z²/n² J
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Dropping the negative sign.",
-
-        hack:
-          "Energy = NEGATIVE, Z² on TOP, n² BELOW.",
-
-        formula:
-          "Eₙ = −2.18×10⁻¹⁸ Z²/n² J"
-      },
-
-
-      {
-        id: 23,
-        category: "Chemistry",
-        title: "de Broglie Wavelength",
-        priority: "HIGH",
-
-        start: `
-          Start with:
-          <span class="equation">p = h/λ</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Multiply by λ",
-            text: `
-              <span class="equation">pλ = h</span>
-            `
-          },
-
-          {
-            title: "Divide by p",
-            text: `
-              <span class="equation">λ = h/p</span>
-            `
-          },
-
-          {
-            title: "Use p = mv",
-            text: `
-              <span class="equation">
-                λ = h/(mv)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing λ = mv/h.",
-
-        hack:
-          "de Broglie → H on TOP.",
-
-        formula:
-          "λ = h/p = h/(mv)"
-      },
-
-
-      {
-        id: 24,
-        category: "Chemistry",
-        title: "Bohr Quantization Condition",
-        priority: "HIGH",
-
-        start: `
-          Start with:
-          <span class="equation">mvr = nh/(2π)</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Replace mv by p",
-            text: `
-              <span class="equation">
-                pr = nh/(2π)
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply by 2π",
-            text: `
-              <span class="equation">
-                2πpr = nh
-              </span>
-            `
-          },
-
-          {
-            title: "Use p = h/λ",
-            text: `
-              <span class="equation">
-                2π(h/λ)r = nh
-              </span>
-            `
-          },
-
-          {
-            title: "Cancel h",
-            text: `
-              <span class="equation">
-                2πr/λ = n
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply by λ",
-            text: `
-              <span class="equation">
-                2πr = nλ
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting p = mv when changing mvr into pr.",
-
-        hack:
-          "Orbit circumference = WHOLE NUMBER OF WAVELENGTHS.",
-
-        formula:
-          "mvr = nh/(2π)  ⇒  2πr = nλ"
-      },
-
-
-      {
-        id: 25,
-        category: "Chemistry",
-        title: "Quantum Numbers",
-        priority: "MEDIUM",
-
-        start: `
-          Four quantum numbers are used to describe an electron:
-          n, l, mₗ and mₛ.
-        `,
-
-        steps: [
-
-          {
-            title: "Principal quantum number n",
-            text: `
-              Describes the principal energy shell.
-            `
-          },
-
-          {
-            title: "Azimuthal quantum number l",
-            text: `
-              Describes the subshell and orbital shape.
-            `
-          },
-
-          {
-            title: "Magnetic quantum number mₗ",
-            text: `
-              Describes the spatial orientation of the orbital.
-            `
-          },
-
-          {
-            title: "Spin quantum number mₛ",
-            text: `
-              Describes the electron spin orientation.
-            `
-          }
-
-        ],
-
-        trap:
-          "Mixing up l and mₗ. l describes subshell/shape; mₗ describes orientation.",
-
-        hack:
-          "n = Name shell; l = Look/shape; mₗ = Map direction; mₛ = Spin.",
-
-        formula:
-          "Quantum numbers = n, l, mₗ, mₛ"
-      },
-
-
-      /* ==========================================================
-         MATHEMATICS — UPDATED SYLLABUS
-      ========================================================== */
-
-      {
-        id: 26,
-        category: "Mathematics",
-        title: "Sets — Definition of a Set",
-        priority: "MEDIUM",
-
-        start: `
-          A set is a well-defined collection of objects.
-        `,
-
-        steps: [
-
-          {
-            title: "Identify the collection",
-            text: `
-              A set contains objects called elements.
-            `
-          },
-
-          {
-            title: "Check whether membership is clear",
-            text: `
-              The collection must be well-defined, meaning we should be able
-              to clearly decide whether an object belongs to the set or not.
-            `
-          },
-
-          {
-            title: "Represent the set",
-            text: `
-              A set can be written by listing its elements or by describing
-              a condition that its elements satisfy.
-            `
-          }
-
-        ],
-
-        trap:
-          "Calling a vague or subjective collection a well-defined set.",
-
-        hack:
-          "SET = Clearly Defined Collection.",
-
-        formula:
-          "A set = a well-defined collection of objects"
-      },
-
-
-      {
-        id: 27,
-        category: "Mathematics",
-        title: "Sets — Relation as a Subset of Cartesian Product",
-        priority: "MEDIUM",
-
-        start: `
-          A relation R from a non-empty set A to a non-empty set B is a
-          subset of the Cartesian product A × B.
-        `,
-
-        steps: [
-
-          {
-            title: "Form the Cartesian product",
-            text: `
-              A × B contains all ordered pairs (a,b) where a ∈ A and b ∈ B.
-            `
-          },
-
-          {
-            title: "Choose some ordered pairs",
-            text: `
-              A relation does not have to contain every ordered pair.
-              It may contain only some of them.
-            `
-          },
-
-          {
-            title: "Write the relation",
-            text: `
-              Therefore:
-              <span class="equation">
-                R ⊆ A × B
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Thinking a relation must contain every element of A × B.",
-
-        hack:
-          "RELATION = selected ordered pairs from A × B.",
-
-        formula:
-          "R ⊆ A × B"
-      },
-
-
-      {
-        id: 28,
-        category: "Mathematics",
-        title: "De Morgan's Law — (A ∪ B)' = A' ∩ B'",
-        priority: "HIGH",
-
-        start: `
-          To prove a set identity, take an arbitrary element x and
-          compare membership on both sides.
-        `,
-
-        steps: [
-
-          {
-            title: "Start with the left side",
-            text: `
-              Suppose:
-              <span class="equation">
-                x ∈ (A ∪ B)'
-              </span>
-              This means x is NOT in A ∪ B.
-            `
-          },
-
-          {
-            title: "Interpret the union",
-            text: `
-              x is not in A ∪ B means x is not in A AND x is not in B.
-              Therefore:
-              <span class="equation">
-                x ∈ A' AND x ∈ B'
-              </span>
-            `
-          },
-
-          {
-            title: "Use intersection",
-            text: `
-              Being in both A' and B' means:
-              <span class="equation">
-                x ∈ A' ∩ B'
-              </span>
-            `
-          },
-
-          {
-            title: "Conclude",
-            text: `
-              Since the same arbitrary x belongs to both sides:
-              <span class="equation">
-                (A ∪ B)' = A' ∩ B'
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Changing union into union, instead of changing union to intersection after taking the complement.",
-
-        hack:
-          "DE MORGAN: Complement FLIPS ∪ ↔ ∩.",
-
-        formula:
-          "(A ∪ B)' = A' ∩ B'"
-      },
-
-
-      {
-        id: 29,
-        category: "Mathematics",
-        title: "De Morgan's Law — (A ∩ B)' = A' ∪ B'",
-        priority: "HIGH",
-
-        start: `
-          Again use an arbitrary element x and compare membership.
-        `,
-
-        steps: [
-
-          {
-            title: "Start with the left side",
-            text: `
-              Suppose:
-              <span class="equation">
-                x ∈ (A ∩ B)'
-              </span>
-              So x is NOT in A ∩ B.
-            `
-          },
-
-          {
-            title: "Interpret the intersection",
-            text: `
-              If x is not in A ∩ B, then x is not simultaneously in both sets.
-              Therefore x is not in A OR x is not in B.
-            `
-          },
-
-          {
-            title: "Use union",
-            text: `
-              Therefore:
-              <span class="equation">
-                x ∈ A' ∪ B'
-              </span>
-            `
-          },
-
-          {
-            title: "Conclude",
-            text: `
-              Hence:
-              <span class="equation">
-                (A ∩ B)' = A' ∪ B'
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Changing the complement but leaving the intersection sign unchanged.",
-
-        hack:
-          "Complement FLIPS the set operation: ∩ becomes ∪.",
-
-        formula:
-          "(A ∩ B)' = A' ∪ B'"
-      },
-
-
-      {
-        id: 30,
-        category: "Mathematics",
-        title: "Distributive Law — A ∩ (B ∪ C)",
-        priority: "HIGH",
-
-        start: `
-          Prove:
-          <span class="equation">
-            A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)
-          </span>
-          by taking an arbitrary element x.
-        `,
-
-        steps: [
-
-          {
-            title: "Start with membership",
-            text: `
-              Suppose:
-              <span class="equation">
-                x ∈ A ∩ (B ∪ C)
-              </span>
-            `
-          },
-
-          {
-            title: "Interpret intersection",
-            text: `
-              This means:
-              x ∈ A AND x ∈ (B ∪ C).
-            `
-          },
-
-          {
-            title: "Interpret union",
-            text: `
-              x ∈ B ∪ C means:
-              x ∈ B OR x ∈ C.
-            `
-          },
-
-          {
-            title: "Combine the conditions",
-            text: `
-              Therefore x is in A and either B or C.
-              This gives:
-              <span class="equation">
-                (x ∈ A∩B) OR (x ∈ A∩C)
-              </span>
-            `
-          },
-
-          {
-            title: "Write the set result",
-            text: `
-              Therefore:
-              <span class="equation">
-                A ∩ (B ∪ C)
-                =
-                (A ∩ B) ∪ (A ∩ C)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Distributing the intersection incorrectly over the union.",
-
-        hack:
-          "Intersection can DISTRIBUTE over union.",
-
-        formula:
-          "A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)"
-      },
-
-
-      {
-        id: 31,
-        category: "Mathematics",
-        title: "Complement Laws",
-        priority: "HIGH",
-
-        start: `
-          The complement of A contains all elements of the universal set U
-          that are not in A.
-        `,
-
-        steps: [
-
-          {
-            title: "Union with complement",
-            text: `
-              Every element of U is either in A or not in A.
-              Therefore:
-              <span class="equation">
-                A ∪ A' = U
-              </span>
-            `
-          },
-
-          {
-            title: "Intersection with complement",
-            text: `
-              No element can be both in A and not in A.
-              Therefore:
-              <span class="equation">
-                A ∩ A' = ∅
-              </span>
-            `
-          },
-
-          {
-            title: "Remember the two results",
-            text: `
-              Union gives EVERYTHING.
-              Intersection gives NOTHING.
-            `
-          }
-
-        ],
-
-        trap:
-          "Interchanging U and ∅ in the two complement laws.",
-
-        hack:
-          "UNION = ALL; INTERSECTION = NONE.",
-
-        formula:
-          "A ∪ A' = U;  A ∩ A' = ∅"
-      },
-
-
-      {
-        id: 32,
-        category: "Mathematics",
-        title: "Linear Inequalities — Fundamental Rules",
-        priority: "HIGH",
-
-        start: `
-          An inequality uses symbols such as <, >, ≤ and ≥.
-        `,
-
-        steps: [
-
-          {
-            title: "Adding or subtracting",
-            text: `
-              Equal numbers may be added to or subtracted from both sides
-              without changing the inequality sign.
-              <span class="equation">
-                x + 3 < 8
-                ⇒
-                x < 5
-              </span>
-            `
-          },
-
-          {
-            title: "Multiplying by a positive number",
-            text: `
-              Multiplying or dividing both sides by the same positive number
-              does NOT change the sign.
-            `
-          },
-
-          {
-            title: "Multiplying by a negative number",
-            text: `
-              Multiplying or dividing both sides by a negative number
-              REVERSES the inequality sign.
-            `
-          },
-
-          {
-            title: "Example",
-            text: `
-              Start with:
-              <span class="equation">
-                −2x < 6
-              </span>
-              Divide by −2.
-              Because −2 is negative, reverse < to >:
-              <span class="equation">
-                x > −3
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Dividing by a negative number but forgetting to reverse the inequality sign.",
-
-        hack:
-          "NEGATIVE = FLIP the sign.",
-
-        formula:
-          "×/÷ positive → same sign; ×/÷ negative → reverse sign"
-      },
-
-
-      {
-        id: 33,
-        category: "Mathematics",
-        title: "Linear Inequalities — Number Line Representation",
-        priority: "MEDIUM",
-
-        start: `
-          The inequality sign determines both the endpoint and the shading direction.
-        `,
-
-        steps: [
-
-          {
-            title: "Strict inequality",
-            text: `
-              For x < a or x > a, use an OPEN circle at a because a itself
-              is not included.
-            `
-          },
-
-          {
-            title: "Decide the direction",
-            text: `
-              x < a → shade to the LEFT.
-              x > a → shade to the RIGHT.
-            `
-          },
-
-          {
-            title: "Slack inequality",
-            text: `
-              For x ≤ a or x ≥ a, use a FILLED circle because a is included.
-            `
-          },
-
-          {
-            title: "Decide the direction",
-            text: `
-              x ≤ a → shade LEFT.
-              x ≥ a → shade RIGHT.
-            `
-          }
-
-        ],
-
-        trap:
-          "Using a filled circle for < or >.",
-
-        hack:
-          "OPEN = NOT included. FILLED = included.",
-
-        formula:
-          "x<a → open + left; x>a → open + right; x≤a → filled + left; x≥a → filled + right"
-      },
-
-
-      {
-        id: 34,
-        category: "Mathematics",
-        title: "Permutations — Derivation of ⁿPᵣ",
-        priority: "HIGH",
-
-        start: `
-          Arrange r distinct objects into r vacant places selected from n distinct objects.
-        `,
-
-        steps: [
-
-          {
-            title: "Fill the first place",
-            text: `
-              There are n objects available for the first place.
-              So:
-              <span class="equation">n choices</span>
-            `
-          },
-
-          {
-            title: "Fill the second place",
-            text: `
-              One object has already been used.
-              Therefore:
-              <span class="equation">n−1 choices</span>
-            `
-          },
-
-          {
-            title: "Continue",
-            text: `
-              The choices continue:
-              <span class="equation">
-                n, n−1, n−2, ..., n−r+1
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply the choices",
-            text: `
-              By the multiplication principle:
-              <span class="equation">
-                ⁿPᵣ = n(n−1)(n−2)...(n−r+1)
-              </span>
-            `
-          },
-
-          {
-            title: "Complete the factorial",
-            text: `
-              Multiply numerator and denominator by (n−r)!:
-              <span class="equation">
-                ⁿPᵣ =
-                [n(n−1)...(n−r+1)(n−r)!]/(n−r)!
-              </span>
-            `
-          },
-
-          {
-            title: "Recognize n!",
-            text: `
-              The numerator is n!.
-              Therefore:
-              <span class="equation">
-                ⁿPᵣ = n!/(n−r)!
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing n!/(n+r)! instead of n!/(n−r)!.",
-
-        hack:
-          "PERMUTATION = ORDER matters; STOP at r places.",
-
-        formula:
-          "ⁿPᵣ = n!/(n−r)!   (0 ≤ r ≤ n)"
-      },
-
-
-      {
-        id: 35,
-        category: "Mathematics",
-        title: "Relationship Between Permutations and Combinations",
-        priority: "HIGH",
-
-        start: `
-          A combination selects r objects without caring about order.
-          A permutation arranges those same r objects in order.
-        `,
-
-        steps: [
-
-          {
-            title: "Choose the r objects",
-            text: `
-              Number of ways of choosing r objects from n:
-              <span class="equation">
-                ⁿCᵣ
-              </span>
-            `
-          },
-
-          {
-            title: "Arrange the chosen objects",
-            text: `
-              The r selected objects can be arranged in:
-              <span class="equation">
-                r!
-              </span>
-              ways.
-            `
-          },
-
-          {
-            title: "Multiply",
-            text: `
-              Therefore:
-              <span class="equation">
-                ⁿPᵣ = ⁿCᵣ × r!
-              </span>
-            `
-          },
-
-          {
-            title: "Solve for ⁿCᵣ",
-            text: `
-              Divide both sides by r!:
-              <span class="equation">
-                ⁿCᵣ = ⁿPᵣ/r!
-              </span>
-              Substitute
-              <span class="equation compact">ⁿPᵣ = n!/(n−r)!</span>:
-              <span class="equation">
-                ⁿCᵣ = n!/[r!(n−r)!]
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Using combinations when order matters, or forgetting the r! factor.",
-
-        hack:
-          "CHOOSE first, then ARRANGE: C × r! = P.",
-
-        formula:
-          "ⁿPᵣ = ⁿCᵣr!  ⇒  ⁿCᵣ = n!/[r!(n−r)!]"
-      },
-
-
-      {
-        id: 36,
-        category: "Mathematics",
-        title: "Combinatorial Identity — ⁿCᵣ + ⁿCᵣ₋₁ = ⁿ⁺¹Cᵣ",
-        priority: "HIGH",
-
-        start: `
-          This is Pascal's identity:
-          <span class="equation">
-            ⁿCᵣ + ⁿCᵣ₋₁ = ⁿ⁺¹Cᵣ
-          </span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Write the two combinations",
-            text: `
-              <span class="equation">
-                ⁿCᵣ = n!/[r!(n−r)!]
-              </span>
-              and:
-              <span class="equation">
-                ⁿCᵣ₋₁ =
-                n!/[(r−1)!(n−r+1)!]
-              </span>
-            `
-          },
-
-          {
-            title: "Use a common structure",
-            text: `
-              Both terms can be combined by taking the common factorial
-              factors and simplifying.
-            `
-          },
-
-          {
-            title: "Recognize the result",
-            text: `
-              The result simplifies to:
-              <span class="equation">
-                (n+1)!/[r!(n+1−r)!]
-              </span>
-            `
-          },
-
-          {
-            title: "Identify the combination",
-            text: `
-              This is exactly:
-              <span class="equation">
-                ⁿ⁺¹Cᵣ
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Confusing r−1 with r+1 in the lower index.",
-
-        hack:
-          "PAScal: two neighbours ADD to make the next row.",
-
-        formula:
-          "ⁿCᵣ + ⁿCᵣ₋₁ = ⁿ⁺¹Cᵣ"
-      },
-
-
-      {
-        id: 37,
-        category: "Mathematics",
-        title: "Permutations with Repeated Objects",
-        priority: "HIGH",
-
-        start: `
-          Suppose n objects contain repeated groups:
-          p₁ objects of one kind, p₂ of another, ..., pₖ of the kth kind.
-        `,
-
-        steps: [
-
-          {
-            title: "Start as if every object were different",
-            text: `
-              If all n objects were distinct, there would be:
-              <span class="equation">
-                n!
-              </span>
-              arrangements.
-            `
-          },
-
-          {
-            title: "Correct for identical objects",
-            text: `
-              If p₁ identical objects are exchanged among themselves,
-              the visible arrangement does not change.
-              So divide by p₁!.
-            `
-          },
-
-          {
-            title: "Correct every repeated group",
-            text: `
-              Similarly divide by:
-              <span class="equation">
-                p₂!, p₃!, ..., pₖ!
-              </span>
-            `
-          },
-
-          {
-            title: "Final formula",
-            text: `
-              <span class="equation">
-                Number of arrangements =
-                n!/(p₁!p₂!...pₖ!)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting to divide by the factorial of one or more repeated groups.",
-
-        hack:
-          "ALL! ÷ REPEATED! factors.",
-
-        formula:
-          "n!/(p₁!p₂!…pₖ!)"
-      },
-
-
-      {
-        id: 38,
-        category: "Mathematics",
-        title: "Binomial Theorem — Statement",
-        priority: "HIGH",
-
-        start: `
-          For a positive integer n, the binomial theorem expands (a+b)ⁿ into
-          n+1 terms.
-        `,
-
-        steps: [
-
-          {
-            title: "Start with the binomial",
-            text: `
-              <span class="equation">
-                (a+b)ⁿ
-              </span>
-            `
-          },
-
-          {
-            title: "Expand according to binomial coefficients",
-            text: `
-              <span class="equation">
-                (a+b)ⁿ =
-                ⁿC₀aⁿ +
-                ⁿC₁aⁿ⁻¹b +
-                ⁿC₂aⁿ⁻²b² +
-                ...
-                +
-                ⁿCₙbⁿ
-              </span>
-            `
-          },
-
-          {
-            title: "Observe the powers",
-            text: `
-              The power of a starts at n and decreases by 1 each term.
-              The power of b starts at 0 and increases by 1 each term.
-            `
-          }
-
-        ],
-
-        trap:
-          "Changing the total power n, or missing a term near the middle.",
-
-        hack:
-          "a powers DOWN; b powers UP.",
-
-        formula:
-          "(a+b)ⁿ = Σ ⁿCᵣ aⁿ⁻ʳbʳ, r = 0 to n"
-      },
-
-
-      {
-        id: 39,
-        category: "Mathematics",
-        title: "Binomial Theorem — Proof by Mathematical Induction",
-        priority: "HIGH",
-
-        start: `
-          Prove the theorem by mathematical induction.
-          Let P(n) be the statement:
-          <span class="equation">
-            (a+b)ⁿ = ⁿC₀aⁿ + ⁿC₁aⁿ⁻¹b + ... + ⁿCₙbⁿ
-          </span>
-        `,
-
-        steps: [
-
-          {
-            title: "Step 1 — Base case n = 1",
-            text: `
-              For n = 1:
-              <span class="equation">
-                (a+b)¹ = a+b
-              </span>
-              and:
-              <span class="equation">
-                ¹C₀a + ¹C₁b = a+b
-              </span>
-              Therefore P(1) is true.
-            `
-          },
-
-          {
-            title: "Step 2 — Inductive hypothesis",
-            text: `
-              Assume P(k) is true:
-              <span class="equation">
-                (a+b)ᵏ =
-                ᵏC₀aᵏ +
-                ᵏC₁aᵏ⁻¹b +
-                ... +
-                ᵏCₖbᵏ
-              </span>
-            `
-          },
-
-          {
-            title: "Step 3 — Multiply by (a+b)",
-            text: `
-              <span class="equation">
-                (a+b)ᵏ⁺¹
-                =
-                (a+b)
-                [
-                  ᵏC₀aᵏ +
-                  ᵏC₁aᵏ⁻¹b +
-                  ...
-                  +
-                  ᵏCₖbᵏ
-                ]
-              </span>
-            `
-          },
-
-          {
-            title: "Step 4 — Group like terms",
-            text: `
-              Terms having the same powers of a and b are grouped.
-              Their coefficients become sums such as:
-              <span class="equation">
-                ᵏCᵣ + ᵏCᵣ₋₁
-              </span>
-            `
-          },
-
-          {
-            title: "Step 5 — Apply Pascal's identity",
-            text: `
-              Using:
-              <span class="equation">
-                ᵏCᵣ + ᵏCᵣ₋₁ = ᵏ⁺¹Cᵣ
-              </span>,
-              the expansion becomes:
-              <span class="equation">
-                (a+b)ᵏ⁺¹
-                =
-                ᵏ⁺¹C₀aᵏ⁺¹
-                +
-                ᵏ⁺¹C₁aᵏb
-                + ...
-                +
-                ᵏ⁺¹Cₖ₊₁bᵏ⁺¹
-              </span>
-            `
-          },
-
-          {
-            title: "Conclusion",
-            text: `
-              Therefore P(k+1) is true whenever P(k) is true.
-              Since P(1) is true, the theorem is true for all positive integers n.
-            `
-          }
-
-        ],
-
-        trap:
-          "Skipping the induction hypothesis or failing to show why the k+1 case follows from the k case.",
-
-        hack:
-          "INDUCTION = Base → Assume → Multiply → Group → Pascal → Conclude.",
-
-        formula:
-          "P(1) true + P(k) ⇒ P(k+1)  ⇒ theorem true for all n∈N"
-      },
-
-
-      {
-        id: 40,
-        category: "Mathematics",
-        title: "Binomial Expansion — Number of Terms",
-        priority: "MEDIUM",
-
-        start: `
-          In the expansion of (a+b)ⁿ, the index r takes values from 0 through n.
-        `,
-
-        steps: [
-
-          {
-            title: "List the first index",
-            text: `
-              The first term corresponds to:
-              <span class="equation">r = 0</span>
-            `
-          },
-
-          {
-            title: "List the last index",
-            text: `
-              The final term corresponds to:
-              <span class="equation">r = n</span>
-            `
-          },
-
-          {
-            title: "Count the integers",
-            text: `
-              The integers from 0 to n inclusive are:
-              <span class="equation">
-                n+1
-              </span>
-              in number.
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing n terms instead of n+1 terms.",
-
-        hack:
-          "Start at ZERO → end at n → count = n+1.",
-
-        formula:
-          "Number of terms = n + 1"
-      },
-
-
-      {
-        id: 41,
-        category: "Mathematics",
-        title: "Sum of Binomial Coefficients",
-        priority: "HIGH",
-
-        start: `
-          Start with the binomial theorem and put:
-          <span class="equation">a = 1</span>
-          and
-          <span class="equation">b = 1</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Write the theorem",
-            text: `
-              <span class="equation">
-                (a+b)ⁿ =
-                ⁿC₀aⁿ +
-                ⁿC₁aⁿ⁻¹b +
-                ...
-                +
-                ⁿCₙbⁿ
-              </span>
-            `
-          },
-
-          {
-            title: "Put a = 1 and b = 1",
-            text: `
-              <span class="equation">
-                (1+1)ⁿ =
-                ⁿC₀ +
-                ⁿC₁ +
-                ...
-                +
-                ⁿCₙ
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify the left side",
-            text: `
-              <span class="equation">
-                2ⁿ =
-                ⁿC₀ +
-                ⁿC₁ +
-                ...
-                +
-                ⁿCₙ
-              </span>
-            `
-          },
-
-          {
-            title: "Final result",
-            text: `
-              <span class="equation">
-                Σⁿᵣ₌₀ ⁿCᵣ = 2ⁿ
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Substituting a = 1 but forgetting to also substitute b = 1.",
-
-        hack:
-          "Binomial coefficients sum → PUT BOTH variables = 1.",
-
-        formula:
-          "ⁿC₀ + ⁿC₁ + ... + ⁿCₙ = 2ⁿ"
-      },
-
-
-      {
-        id: 42,
-        category: "Mathematics",
-        title: "Straight Lines — Slope Through Two Points",
-        priority: "HIGH",
-
-        start: `
-          Let P(x₁,y₁) and Q(x₂,y₂) lie on a non-vertical line.
-          If its inclination is θ:
-          <span class="equation">m = tanθ</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Identify the vertical change",
-            text: `
-              The change in y-coordinate is:
-              <span class="equation">
-                y₂ − y₁
-              </span>
-            `
-          },
-
-          {
-            title: "Identify the horizontal change",
-            text: `
-              The change in x-coordinate is:
-              <span class="equation">
-                x₂ − x₁
-              </span>
-            `
-          },
-
-          {
-            title: "Form the slope",
-            text: `
-              Slope is rise divided by run:
-              <span class="equation">
-                m = (y₂−y₁)/(x₂−x₁)
-              </span>
-            `
-          },
-
-          {
-            title: "Connect with inclination",
-            text: `
-              Since m = tanθ:
-              <span class="equation">
-                m = tanθ = (y₂−y₁)/(x₂−x₁)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Reversing numerator and denominator.",
-
-        hack:
-          "Slope = RISE / RUN.",
-
-        formula:
-          "m = tanθ = (y₂−y₁)/(x₂−x₁)"
-      },
-
-
-      {
-        id: 43,
-        category: "Mathematics",
-        title: "Straight Lines — Point-Slope Form",
-        priority: "HIGH",
-
-        start: `
-          A line passes through (x₀,y₀) and has slope m.
-        `,
-
-        steps: [
-
-          {
-            title: "Use the slope definition",
-            text: `
-              For another point (x,y) on the line:
-              <span class="equation">
-                m = (y−y₀)/(x−x₀)
-              </span>
-            `
-          },
-
-          {
-            title: "Multiply by x−x₀",
-            text: `
-              <span class="equation">
-                m(x−x₀) = y−y₀
-              </span>
-            `
-          },
-
-          {
-            title: "Write standard point-slope form",
-            text: `
-              <span class="equation">
-                y−y₀ = m(x−x₀)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Writing x−x₀ on one side but y₀−y on the other.",
-
-        hack:
-          "POINT + SLOPE → y−y₀ = m(x−x₀).",
-
-        formula:
-          "y − y₀ = m(x − x₀)"
-      },
-
-
-      {
-        id: 44,
-        category: "Mathematics",
-        title: "Straight Lines — Two-Point Form",
-        priority: "HIGH",
-
-        start: `
-          The line passes through:
-          <span class="equation">(x₁,y₁)</span>
-          and
-          <span class="equation">(x₂,y₂)</span>.
-        `,
-
-        steps: [
-
-          {
-            title: "Find the slope",
-            text: `
-              <span class="equation">
-                m = (y₂−y₁)/(x₂−x₁)
-              </span>
-            `
-          },
-
-          {
-            title: "Use point-slope form",
-            text: `
-              Start with point (x₁,y₁):
-              <span class="equation">
-                y−y₁ = m(x−x₁)
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute the slope",
-            text: `
-              <span class="equation">
-                y−y₁ =
-                [(y₂−y₁)/(x₂−x₁)](x−x₁)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Mixing x₁ with y₂ or x₂ with y₁.",
-
-        hack:
-          "Two points → find SLOPE → plug into POINT-SLOPE.",
-
-        formula:
-          "y−y₁ = [(y₂−y₁)/(x₂−x₁)](x−x₁)"
-      },
-
-
-      {
-        id: 45,
-        category: "Mathematics",
-        title: "Straight Lines — Slope-Intercept Form",
-        priority: "MEDIUM",
-
-        start: `
-          A line has slope m and y-intercept c.
-        `,
-
-        steps: [
-
-          {
-            title: "Use point-slope form",
-            text: `
-              The line crosses the y-axis at:
-              <span class="equation">(0,c)</span>.
-              Therefore:
-              <span class="equation">
-                y−c = m(x−0)
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              <span class="equation">
-                y−c = mx
-              </span>
-              Add c:
-              <span class="equation">
-                y = mx+c
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Using x-intercept instead of y-intercept for c.",
-
-        hack:
-          "Slope-intercept = SLOPE + INTERCEPT: y = mx+c.",
-
-        formula:
-          "y = mx + c"
-      },
-
-
-      {
-        id: 46,
-        category: "Mathematics",
-        title: "Straight Lines — Intercept Form",
-        priority: "MEDIUM",
-
-        start: `
-          A line cuts the x-axis at a and the y-axis at b.
-        `,
-
-        steps: [
-
-          {
-            title: "Use the two points",
-            text: `
-              The intercept points are:
-              <span class="equation">(a,0)</span>
-              and:
-              <span class="equation">(0,b)</span>.
-            `
-          },
-
-          {
-            title: "Find the slope",
-            text: `
-              <span class="equation">
-                m = (0−b)/(a−0) = −b/a
-              </span>
-            `
-          },
-
-          {
-            title: "Use point-slope form",
-            text: `
-              Using (a,0):
-              <span class="equation">
-                y = (−b/a)(x−a)
-              </span>
-            `
-          },
-
-          {
-            title: "Simplify",
-            text: `
-              <span class="equation">
-                y = −bx/a + b
-              </span>
-              Rearranging:
-              <span class="equation">
-                x/a + y/b = 1
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Putting the x-intercept under y or the y-intercept under x.",
-
-        hack:
-          "x goes with x-intercept a; y goes with y-intercept b.",
-
-        formula:
-          "x/a + y/b = 1"
-      },
-
-
-      {
-        id: 47,
-        category: "Mathematics",
-        title: "Straight Lines — Angle Between Two Lines",
-        priority: "HIGH",
-
-        start: `
-          For two lines with slopes m₁ and m₂, use the tangent subtraction identity
-          together with tanθ = slope.
-        `,
-
-        steps: [
-
-          {
-            title: "Relate slopes to inclinations",
-            text: `
-              If the inclinations are θ₁ and θ₂:
-              <span class="equation">
-                m₁ = tanθ₁
-              </span>
-              and:
-              <span class="equation">
-                m₂ = tanθ₂
-              </span>
-            `
-          },
-
-          {
-            title: "Write the angle difference",
-            text: `
-              The angle between the lines is:
-              <span class="equation">
-                θ = θ₂ − θ₁
-              </span>
-            `
-          },
-
-          {
-            title: "Use tan(A−B)",
-            text: `
-              <span class="equation">
-                tanθ =
-                (tanθ₂−tanθ₁)/
-                (1+tanθ₁tanθ₂)
-              </span>
-            `
-          },
-
-          {
-            title: "Replace tan by slopes",
-            text: `
-              <span class="equation">
-                tanθ =
-                (m₂−m₁)/(1+m₁m₂)
-              </span>
-              For the acute angle, use absolute value:
-              <span class="equation">
-                tanθ =
-                |(m₂−m₁)/(1+m₁m₂)|
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting the absolute value when the question asks for the acute angle.",
-
-        hack:
-          "Angle = SLOPE difference ÷ (1 + slope product).",
-
-        formula:
-          "tanθ = |(m₂−m₁)/(1+m₁m₂)|"
-      },
-
-
-      {
-        id: 48,
-        category: "Mathematics",
-        title: "Straight Lines — Parallel and Perpendicular Conditions",
-        priority: "HIGH",
-
-        start: `
-          Two lines have slopes m₁ and m₂.
-        `,
-
-        steps: [
-
-          {
-            title: "Parallel lines",
-            text: `
-              Parallel lines have the same inclination.
-              Therefore:
-              <span class="equation">
-                θ₁ = θ₂
-              </span>
-              and hence:
-              <span class="equation">
-                m₁ = m₂
-              </span>
-            `
-          },
-
-          {
-            title: "Perpendicular lines",
-            text: `
-              Perpendicular lines meet at 90°:
-              <span class="equation">
-                θ₂−θ₁ = 90°
-              </span>
-              so tan of the angle is undefined.
-            `
-          },
-
-          {
-            title: "Use the denominator condition",
-            text: `
-              From:
-              <span class="equation">
-                tanθ =
-                (m₂−m₁)/(1+m₁m₂)
-              </span>
-              for 90°, the denominator must be zero:
-              <span class="equation">
-                1+m₁m₂ = 0
-              </span>
-            `
-          },
-
-          {
-            title: "Final result",
-            text: `
-              <span class="equation">
-                m₁m₂ = −1
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Using m₁m₂ = 1 for perpendicular lines.",
-
-        hack:
-          "PARALLEL = SAME; PERPENDICULAR = NEGATIVE RECIPROCALS.",
-
-        formula:
-          "Parallel: m₁ = m₂;  Perpendicular: m₁m₂ = −1"
-      },
-
-
-      {
-        id: 49,
-        category: "Mathematics",
-        title: "Straight Lines — Distance from a Point to a Line",
-        priority: "HIGH",
-
-        start: `
-          For point (x₁,y₁) and line Ax + By + C = 0, the perpendicular distance
-          is measured along the normal direction of the line.
-        `,
-
-        steps: [
-
-          {
-            title: "Write the line",
-            text: `
-              <span class="equation">
-                Ax + By + C = 0
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute the point",
-            text: `
-              The expression measuring the signed displacement of the point from
-              the line is:
-              <span class="equation">
-                Ax₁ + By₁ + C
-              </span>
-            `
-          },
-
-          {
-            title: "Normalize by the length of the normal",
-            text: `
-              The normal vector has components A and B, so its magnitude is:
-              <span class="equation">
-                √(A²+B²)
-              </span>
-            `
-          },
-
-          {
-            title: "Take absolute value",
-            text: `
-              Distance cannot be negative. Therefore:
-              <span class="equation">
-                d =
-                |Ax₁+By₁+C|/
-                √(A²+B²)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting the absolute value or forgetting the square root in the denominator.",
-
-        hack:
-          "Substitute POINT into LINE → absolute value → divide by √(A²+B²).",
-
-        formula:
-          "d = |Ax₁+By₁+C| / √(A²+B²)"
-      },
-
-
-      {
-        id: 50,
-        category: "Mathematics",
-        title: "Straight Lines — Distance Between Parallel Lines",
-        priority: "HIGH",
-
-        start: `
-          Consider:
-          <span class="equation">y = mx+c₁</span>
-          and
-          <span class="equation">y = mx+c₂</span>.
-          They have the same slope and are parallel.
-        `,
-
-        steps: [
-
-          {
-            title: "Convert to general form",
-            text: `
-              First line:
-              <span class="equation">
-                mx − y + c₁ = 0
-              </span>
-              Second line:
-              <span class="equation">
-                mx − y + c₂ = 0
-              </span>
-            `
-          },
-
-          {
-            title: "Use distance formula",
-            text: `
-              For parallel lines Ax+By+C₁=0 and Ax+By+C₂=0:
-              <span class="equation">
-                d = |C₁−C₂|/√(A²+B²)
-              </span>
-            `
-          },
-
-          {
-            title: "Substitute A, B, C",
-            text: `
-              Here A = m and B = −1:
-              <span class="equation">
-                d =
-                |c₁−c₂|/
-                √(m²+1)
-              </span>
-            `
-          },
-
-          {
-            title: "Final result",
-            text: `
-              <span class="equation">
-                d =
-                |c₁−c₂|/
-                √(1+m²)
-              </span>
-            `
-          }
-
-        ],
-
-        trap:
-          "Forgetting that the two parallel lines must have the same slope.",
-
-        hack:
-          "Parallel distance = INTERCEPT difference ÷ √(1+slope²).",
-
-        formula:
-          "d = |c₁−c₂|/√(1+m²)"
-      }
-
-    ];
-
-
-    /* ============================================================
-       DASHBOARD COUNTS
-    ============================================================ */
-
-    const counts = {
-      Physics: topics.filter(t => t.category === "Physics").length,
-      Chemistry: topics.filter(t => t.category === "Chemistry").length,
-      Mathematics: topics.filter(t => t.category === "Mathematics").length
-    };
-
-    document.getElementById("totalTopics").textContent = topics.length;
-    document.getElementById("physicsCount").textContent = counts.Physics;
-    document.getElementById("chemistryCount").textContent = counts.Chemistry;
-    document.getElementById("mathCount").textContent = counts.Mathematics;
-
-
-    /* ============================================================
-       DASHBOARD SEARCH / FILTER
-    ============================================================ */
-
-    const topicList = document.getElementById("topicList");
-    const emptyState = document.getElementById("emptyState");
-    const searchInput = document.getElementById("searchInput");
-
-    let currentFilter = "All";
-
-
-    function renderTopics() {
-
-      const query =
-        searchInput.value.trim().toLowerCase();
-
-
-      const filtered =
-        topics.filter(topic => {
-
-          const matchesCategory =
-            currentFilter === "All" ||
-            topic.category === currentFilter;
-
-
-          const searchableText = [
-            topic.title,
-            topic.category,
-            topic.start,
-            topic.trap,
-            topic.hack,
-            topic.formula,
-            ...topic.steps.map(step =>
-              step.title + " " + step.text
-            )
-          ]
-          .join(" ")
-          .toLowerCase();
-
-
-          const matchesSearch =
-            !query ||
-            searchableText.includes(query);
-
-
-          return matchesCategory && matchesSearch;
-
-        });
-
-
-      topicList.innerHTML = "";
-
-
-      filtered.forEach(topic => {
-
-        const card =
-          document.createElement("article");
-
-
-        card.className = "topic-card";
-
-
-        const priorityClass =
-          topic.priority.toLowerCase() === "high"
-            ? "high"
-            : "medium";
-
-
-        card.innerHTML = `
-
-          <div class="topic-header">
-
-            <div class="topic-header-left">
-
-              <div class="subject-badge subject-${topic.category}">
-                ${topic.category}
-              </div>
-
-              <h3 class="topic-title">
-                ${topic.id}. ${topic.title}
-              </h3>
-
-            </div>
-
-            <div class="priority ${priorityClass}">
-              ${topic.priority}
-            </div>
-
-          </div>
-
-
-          <div class="topic-body">
-
-            <div class="start-box">
-
-              <div class="label">
-                Starting Point
-              </div>
-
-              <p>
-                ${topic.start}
-              </p>
-
-            </div>
-
-
-            <div class="step-section">
-
-              <h4>
-                Step-by-Step Flow
-              </h4>
-
-              <ol class="steps">
-
-                ${topic.steps.map(step => `
-
-                  <li>
-
-                    <strong>
-                      ${step.title}
-                    </strong>
-
-                    <div>
-                      ${step.text}
-                    </div>
-
-                  </li>
-
-                `).join("")}
-
-              </ol>
-
-            </div>
-
-
-            <div class="support-grid">
-
-              <div class="trap-box">
-
-                <h4>
-                  🚨 Common Trap
-                </h4>
-
-                <div>
-                  ${topic.trap}
-                </div>
-
-              </div>
-
-
-              <div class="hack-box">
-
-                <h4>
-                  🧠 Memory Hack
-                </h4>
-
-                <div>
-                  ${topic.hack}
-                </div>
-
-              </div>
-
-
-              <div class="final-box">
-
-                <h4>
-                  📌 Final Formula / Result
-                </h4>
-
-                <div class="final-formula">
-                  ${topic.formula}
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        `;
-
-
-        topicList.appendChild(card);
-
-      });
-
-
-      emptyState.hidden =
-        filtered.length !== 0;
-
-    }
-
-
-    document
-      .querySelectorAll(".filter-btn")
-      .forEach(button => {
-
-        button.addEventListener("click", () => {
-
-          document
-            .querySelectorAll(".filter-btn")
-            .forEach(btn =>
-              btn.classList.remove("active")
-            );
-
-          button.classList.add("active");
-
-          currentFilter =
-            button.dataset.filter;
-
-          renderTopics();
-
-        });
-
-      });
-
-
-    searchInput.addEventListener(
-      "input",
-      renderTopics
-    );
-
+    btn.classList.add("active");
+    currentFilter = btn.dataset.filter;
 
     renderTopics();
+  });
+});
 
+searchInput.addEventListener("input",renderTopics);
 
-    /* ============================================================
-       FLASHCARD DECK
-    ============================================================ */
+renderTopics();
+updateProgress();
 
-    const flashCard =
-      document.getElementById("flashCard");
 
-    const flashCategory =
-      document.getElementById("flashCategory");
+/* ============================================================
+   FLASHCARDS
+============================================================ */
 
-    const flashCounterTop =
-      document.getElementById("flashCounterTop");
+let deck = [...topics];
+let flashIndex = 0;
 
-    const flashTopic =
-      document.getElementById("flashTopic");
+const flashCard = document.getElementById("flashCard");
+const flashChapter = document.getElementById("flashChapter");
+const flashCounter = document.getElementById("flashCounter");
+const flashTopic = document.getElementById("flashTopic");
+const flashBackTitle = document.getElementById("flashBackTitle");
+const flashHack = document.getElementById("flashHack");
+const flashFormula = document.getElementById("flashFormula");
 
-    const flashBackTitle =
-      document.getElementById("flashBackTitle");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const flipBtn = document.getElementById("flipBtn");
+const shuffleBtn = document.getElementById("shuffleBtn");
 
-    const flashHack =
-      document.getElementById("flashHack");
+const deckCurrent = document.getElementById("deckCurrent");
+const deckTotal = document.getElementById("deckTotal");
+const deckTopic = document.getElementById("deckTopic");
+const deckProgress = document.getElementById("deckProgress");
+const deckItems = document.getElementById("deckItems");
 
-    const flashFormula =
-      document.getElementById("flashFormula");
+function renderDeckItems(){
 
-    const prevBtn =
-      document.getElementById("prevBtn");
+  deckItems.innerHTML = "";
 
-    const nextBtn =
-      document.getElementById("nextBtn");
+  deck.forEach((topic,index) => {
 
-    const flipBtn =
-      document.getElementById("flipBtn");
+    const btn = document.createElement("button");
 
-    const shuffleBtn =
-      document.getElementById("shuffleBtn");
+    btn.className =
+      "deck-item" +
+      (index === flashIndex ? " active" : "");
 
-    const deckCurrent =
-      document.getElementById("deckCurrent");
+    btn.textContent =
+      `${index+1}. ${topic.title}`;
 
-    const deckTotal =
-      document.getElementById("deckTotal");
+    btn.addEventListener("click",() => {
 
-    const deckTopic =
-      document.getElementById("deckTopic");
-
-    const progressFill =
-      document.getElementById("progressFill");
-
-    const deckList =
-      document.getElementById("deckList");
-
-
-    let deck = [...topics];
-
-    let flashIndex = 0;
-
-
-    /* ============================================================
-       UPDATE DECK LIST
-    ============================================================ */
-
-    function updateDeckList() {
-
-      deckList.innerHTML = "";
-
-
-      deck.forEach((topic, index) => {
-
-        const item =
-          document.createElement("button");
-
-
-        item.className =
-          "deck-item" +
-          (index === flashIndex
-            ? " active"
-            : "");
-
-
-        item.textContent =
-          `${index + 1}. ${topic.title}`;
-
-
-        item.addEventListener(
-          "click",
-          () => {
-
-            flashIndex = index;
-
-            flashCard
-              .classList
-              .remove("flipped");
-
-            updateFlashcard();
-
-            document
-              .getElementById("flashcards")
-              .scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-              });
-
-          }
-        );
-
-
-        deckList.appendChild(item);
-
-      });
-
-    }
-
-
-    /* ============================================================
-       UPDATE FLASHCARD
-    ============================================================ */
-
-    function updateFlashcard() {
-
-      const topic =
-        deck[flashIndex];
-
-
-      flashCategory.textContent =
-        topic.category.toUpperCase();
-
-
-      flashCounterTop.textContent =
-        `CARD ${flashIndex + 1} OF ${deck.length}`;
-
-
-      flashTopic.textContent =
-        topic.title;
-
-
-      flashBackTitle.textContent =
-        topic.title;
-
-
-      flashHack.textContent =
-        topic.hack;
-
-
-      flashFormula.innerHTML =
-        topic.formula;
-
-
-      deckCurrent.textContent =
-        flashIndex + 1;
-
-
-      deckTotal.textContent =
-        deck.length;
-
-
-      deckTopic.textContent =
-        topic.title;
-
-
-      const progress =
-        ((flashIndex + 1) /
-        deck.length) *
-        100;
-
-
-      progressFill.style.width =
-        progress + "%";
-
-
-      prevBtn.disabled =
-        flashIndex === 0;
-
-
-      nextBtn.disabled =
-        flashIndex === deck.length - 1;
-
-
-      updateDeckList();
-
-    }
-
-
-    /* ============================================================
-       FLIP
-    ============================================================ */
-
-    function flipCard() {
-
-      flashCard
-        .classList
-        .toggle("flipped");
-
-    }
-
-
-    /* ============================================================
-       NEXT / PREVIOUS
-    ============================================================ */
-
-    function nextCard() {
-
-      if (
-        flashIndex <
-        deck.length - 1
-      ) {
-
-        flashIndex++;
-
-        flashCard
-          .classList
-          .remove("flipped");
-
-        updateFlashcard();
-
-      }
-
-    }
-
-
-    function previousCard() {
-
-      if (flashIndex > 0) {
-
-        flashIndex--;
-
-        flashCard
-          .classList
-          .remove("flipped");
-
-        updateFlashcard();
-
-      }
-
-    }
-
-
-    /* ============================================================
-       SHUFFLE
-    ============================================================ */
-
-    function shuffleDeck() {
-
-      for (
-        let i = deck.length - 1;
-        i > 0;
-        i--
-      ) {
-
-        const j =
-          Math.floor(
-            Math.random() *
-            (i + 1)
-          );
-
-
-        [
-          deck[i],
-          deck[j]
-        ] = [
-          deck[j],
-          deck[i]
-        ];
-
-      }
-
-
-      flashIndex = 0;
-
-
-      flashCard
-        .classList
-        .remove("flipped");
-
-
+      flashIndex = index;
+      flashCard.classList.remove("flipped");
       updateFlashcard();
 
-    }
+    });
 
+    deckItems.appendChild(btn);
+  });
+}
 
-    /* ============================================================
-       EVENTS
-    ============================================================ */
+function updateFlashcard(){
 
-    flashCard.addEventListener(
-      "click",
-      flipCard
-    );
+  const topic = deck[flashIndex];
 
+  flashChapter.textContent =
+    topic.chapter.toUpperCase();
 
-    flipBtn.addEventListener(
-      "click",
-      flipCard
-    );
+  flashCounter.textContent =
+    `CARD ${flashIndex+1} OF ${deck.length}`;
 
+  flashTopic.textContent =
+    topic.title;
 
-    nextBtn.addEventListener(
-      "click",
-      nextCard
-    );
+  flashBackTitle.textContent =
+    topic.title;
 
+  flashHack.textContent =
+    topic.hack;
 
-    prevBtn.addEventListener(
-      "click",
-      previousCard
-    );
+  flashFormula.textContent =
+    topic.formula;
 
+  deckCurrent.textContent =
+    flashIndex+1;
 
-    shuffleBtn.addEventListener(
-      "click",
-      shuffleDeck
-    );
+  deckTotal.textContent =
+    deck.length;
 
+  deckTopic.textContent =
+    topic.title;
 
-    /* ============================================================
-       KEYBOARD CONTROLS
-    ============================================================ */
+  deckProgress.style.width =
+    ((flashIndex+1)/deck.length*100) + "%";
 
-    document.addEventListener(
-      "keydown",
-      event => {
+  prevBtn.disabled =
+    flashIndex === 0;
 
-        const tag =
-          document.activeElement.tagName
-            .toLowerCase();
+  nextBtn.disabled =
+    flashIndex === deck.length-1;
 
+  renderDeckItems();
+}
 
-        if (
-          tag === "input" ||
-          tag === "textarea"
-        ) {
-          return;
-        }
+function flipCard(){
+  flashCard.classList.toggle("flipped");
+}
 
+function nextCard(){
 
-        if (
-          event.key === "ArrowRight"
-        ) {
-          nextCard();
-        }
-
-
-        if (
-          event.key === "ArrowLeft"
-        ) {
-          previousCard();
-        }
-
-
-        if (
-          event.code === "Space"
-        ) {
-
-          event.preventDefault();
-
-          flipCard();
-
-        }
-
-      }
-    );
-
-
-    /* ============================================================
-       INITIALIZE
-    ============================================================ */
-
+  if(flashIndex < deck.length-1){
+    flashIndex++;
+    flashCard.classList.remove("flipped");
     updateFlashcard();
+  }
+}
 
-  </script>
+function previousCard(){
 
+  if(flashIndex > 0){
+    flashIndex--;
+    flashCard.classList.remove("flipped");
+    updateFlashcard();
+  }
+}
+
+function shuffleDeck(){
+
+  for(let i=deck.length-1;i>0;i--){
+
+    const j =
+      Math.floor(Math.random()*(i+1));
+
+    [deck[i],deck[j]] =
+      [deck[j],deck[i]];
+  }
+
+  flashIndex = 0;
+  flashCard.classList.remove("flipped");
+  updateFlashcard();
+}
+
+flashCard.addEventListener("click",flipCard);
+flipBtn.addEventListener("click",flipCard);
+nextBtn.addEventListener("click",nextCard);
+prevBtn.addEventListener("click",previousCard);
+shuffleBtn.addEventListener("click",shuffleDeck);
+
+document.addEventListener("keydown",e => {
+
+  const tag =
+    document.activeElement.tagName.toLowerCase();
+
+  if(tag === "input" || tag === "textarea") return;
+
+  if(e.key === "ArrowLeft") previousCard();
+  if(e.key === "ArrowRight") nextCard();
+
+  if(e.code === "Space"){
+    e.preventDefault();
+    flipCard();
+  }
+});
+
+updateFlashcard();
+
+</script>
 </body>
 </html>
